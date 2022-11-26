@@ -24,6 +24,8 @@
     text-decoration: none;
     color: black;
 }
-.tname i{
-    
+
+.carousel-item img{
+    width: 100vw !important;
+    height: 94vh !important;
 }
