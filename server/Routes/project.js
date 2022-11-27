@@ -1,29 +1,35 @@
 const express = require("express");
 const { uuid } = require("uuidv4");
-const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const con = require("../db");
 const fetchuser = require("../middlewares/fetchuser");
 
-const JWT_SECRET = "NOT_SO_SECRET";
 const router = express.Router();
 
 router.get("/:id", fetchuser, async (req, res) => {
     const { id } = req.params;
-    const query = `SELECT * FROM PROJECT WHERE project_id='${id}'`;
+    let query = `SELECT * FROM PROJECT WHERE project_id='${id}'`;
 
     con.query(query, (err, result) => {
         if (err) return res.status(501).json({ error: err.sqlMessage });
         if (result.length === 0) return res.status(501).json({ error: "No project found." });
         const project = result[0];
-        const { username, type } = req.user;
-        if (type === "S") {
-            con.query(`SELECT * FROM STUDENT_IN_TEAM WHERE s_id='${username}' AND team_id='${project.team_id}'`, (err2, res2) => {
-                if (err2) return res.status(501).json({ error: err2.sqlMessage });
-                if (res2.length === 0) return res.status(401).json({ error: "Not authorized to visit this page." });
-                return res.json(result[0]);
-            })
-        } else return res.json(result[0]);
+
+        let query2;
+        if (project.status === "GRADED") query2 = `SELECT * FROM GRADE NATURAL JOIN PROJECT`;
+        else query2 = `SELECT * FROM PROJECT`;
+        query2 += ` WHERE project_id='${id}'`
+
+        con.query(query2, (err, result) => {
+            const { username, type } = req.user;
+            if (type === "S") {
+                con.query(`SELECT * FROM STUDENT_IN_TEAM WHERE s_id='${username}' AND team_id='${project.team_id}'`, (err2, res2) => {
+                    if (err2) return res.status(501).json({ error: err2.sqlMessage });
+                    if (res2.length === 0) return res.status(401).json({ error: "Not authorized to visit this page." });
+                    return res.json(result[0]);
+                })
+            } else return res.json(result[0]);
+        })
     })
 })
 
@@ -72,7 +78,7 @@ router.post("/submit/:id", [
     const { id } = req.params;
     const { submissionLink } = req.body;
 
-    con.query(`SELECT * FROM PROJECT WHERE project_id='${id}'`, (err, result) => {
+    con.query(`SELECT * FROM PROJECT WHERE project_id='${id}' AND status='CREATED'`, (err, result) => {
         if (err) return res.status(501).json({ error: err.sqlMessage });
         if (result.length === 0) return res.status(501).json({ error: "No project found." });
         const project = result[0];

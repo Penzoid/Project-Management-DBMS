@@ -42,10 +42,10 @@ create table PROJECT(
 );
 
 create table GRADE(
-    project_id varchar(50),
-    grade varchar(5),
+    project_id varchar(50) PRIMARY KEY,
+    grade varchar(5) NOT NULL,
     remark varchar(255),
-    gradedBy varchar(12),
+    gradedBy varchar(12) NOT NULL,
     constraint foreign key(project_id) references PROJECT(project_id),
     constraint foreign key(gradedBy) references TEACHER(t_id)
 );
