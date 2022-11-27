@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import AuthContext from "../Context/Auth/AuthContext";
+import React from "react";
+// import AuthContext from "../Context/Auth/AuthContext";
 import "./common.css";
 
 export default function Login() {
-  const { loginUser } = useContext(AuthContext);
+  // const { loginUser } = useContext(AuthContext);
 
   return (
     <div
@@ -23,25 +23,25 @@ export default function Login() {
         <hr />
         <form class="px-4 py-3">
           <div class="mb-3">
-            <label for="exampleDropdownFormEmail1" class="form-label">
-              Email address
+            <label for="username" class="form-label">
+              Username :
             </label>
             <input
               type="email"
               class="form-control"
-              id="exampleDropdownFormEmail1"
-              placeholder="email@example.com"
+              id="username"
+              placeholder="Enter Username"
             />
           </div>
           <div class="mb-3">
-            <label for="exampleDropdownFormPassword1" class="form-label">
-              Password
+            <label for="password" class="form-label">
+              Password :
             </label>
             <input
               type="password"
               class="form-control"
-              id="exampleDropdownFormPassword1"
-              placeholder="Password"
+              id="password"
+              placeholder="Enter Password"
             />
           </div>
           <div class="mb-3">
