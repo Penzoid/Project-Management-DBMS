@@ -10,7 +10,7 @@ create table USER(
     password varchar(255) NOT NULL,
     joined_on DATETIME,
     mobile bigint(15) NOT NULL,
-    address varchar(50),
+    address varchar(255),
     type char(1) NOT NULL
 );
 

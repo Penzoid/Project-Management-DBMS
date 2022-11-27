@@ -18,6 +18,7 @@ router.post("/login", [
     const query = `select * from USER where username='${username}' and password='${password}'`;
     con.query(query, function (err, result) {
         if (err) return res.status(501).json({ error: err.sqlMessage });
+        if (result.length === 0) return res.status(501).json({ error: "Login Credentials Invalid." });
         return res.json(result[0]);
     });
 });
@@ -63,7 +64,12 @@ router.post("/register", [
         if (err) return res.status(501).json({ error: err.sqlMessage });
         con.query(query2, (err2, res2) => {
             if (err2) return res.status(501).json({ error: err2.sqlMessage });
-            return res.json(res2);
+            const query3 = `select * from USER where username='${username}'`;
+            con.query(query3, (err3, res3) => {
+                if (err3) return res.status(501).json({ error: err3.sqlMessage });
+                if (res3.length === 0) return res.status(501).json({ error: "Login Credentials Invalid." });
+                return res.json(res3[0]);
+            })
         })
     });
 });
