@@ -26,22 +26,23 @@ create table TEACHER(
 );
 
 create table TEAM(
-    team_id varchar(12) primary key,
-    team_name varchar(50)
+    team_id varchar(50) primary key,
+    team_name varchar(50) NOT NULL,
+    team_desc varchar(255)
 );
 
 create table PROJECT(
-    project_id varchar(20) primary key,
+    project_id varchar(50) primary key,
     project_name varchar(20),
     description varchar(255),
     sub_link varchar(255),
     status char(10),
-    team_id varchar(12),
+    team_id varchar(50),
     constraint foreign key(team_id) references TEAM(team_id)
 );
 
 create table GRADE(
-    project_id varchar(20),
+    project_id varchar(50),
     grade varchar(5),
     remark varchar(255),
     gradedBy varchar(12),
@@ -51,7 +52,7 @@ create table GRADE(
 
 create table STUDENT_IN_TEAM(
     s_id varchar(12),
-    team_id varchar(12),
+    team_id varchar(50),
     constraint pk primary key(s_id,team_id),
     constraint foreign key(team_id) references TEAM(team_id),
     constraint foreign key(s_id) references STUDENT(s_id)

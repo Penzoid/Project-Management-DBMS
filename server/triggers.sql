@@ -14,7 +14,7 @@ DECLARE count_st int DEFAULT 0;
 select COUNT(*) into count_st FROM STUDENT_IN_TEAM where team_id=NEW.team_id;
 IF (count_st > 5) 
 THEN 
-    signal sqlstate 'ERROR' set message_text = 'team limit execedded';
+    signal sqlstate 'ERROR' set message_text = 'Team limit execedded';
 END IF;
 END;//
 delimiter ;
