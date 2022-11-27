@@ -1,0 +1,24 @@
+{
+  "name": "dbms_project_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Penzoid/Project-Management-DBMS.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Penzoid/Project-Management-DBMS/issues"
+  },
+  "homepage": "https://github.com/Penzoid/Project-Management-DBMS#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "mysql": "^2.18.1"
+  }
+}
