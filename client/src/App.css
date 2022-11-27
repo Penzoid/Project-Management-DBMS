@@ -17,7 +17,7 @@ body{
 }
 
 .footer:hover{
-    height: 250px;
+    height: 300px;
 }
 
 .foot-t{
@@ -33,5 +33,4 @@ body{
 }
 .footer .container *{
     font-size: large;
-    font-weight: bold;
 }

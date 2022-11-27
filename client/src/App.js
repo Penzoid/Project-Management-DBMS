@@ -69,10 +69,12 @@ function App() {
               <img src={logo} alt="" />
             </div>
             <div className="d-flex align-items-center flex-column">
-              <div>One</div>
-              <div>Two</div>
-              <div>Three</div>
-              <div>Four</div>
+              <h3>Team members</h3>
+              <div>Anish Jangir</div>
+              <div>Abhishek Bansiwal</div>
+              <div>Saksham Bindal</div>
+              <div>Sachin Kumar</div>
+              <div>Hitesh Mehata</div>
             </div>
             <div className="d-flex align-items-center flex-column">
               <div>One</div>
