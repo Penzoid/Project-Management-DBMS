@@ -33,11 +33,11 @@ create table TEAM(
 
 create table PROJECT(
     project_id varchar(50) primary key,
-    project_name varchar(20),
+    project_name varchar(50) NOT NULL,
     description varchar(255),
     sub_link varchar(255),
     status char(10),
-    team_id varchar(50),
+    team_id varchar(50) NOT NULL,
     constraint foreign key(team_id) references TEAM(team_id)
 );
 

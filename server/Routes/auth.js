@@ -1,7 +1,9 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const con = require("../db");
 
+const JWT_SECRET = "NOT_SO_SECRET";
 const router = express.Router();
 
 router.post("/login", [
@@ -19,7 +21,14 @@ router.post("/login", [
     con.query(query, function (err, result) {
         if (err) return res.status(501).json({ error: err.sqlMessage });
         if (result.length === 0) return res.status(501).json({ error: "Login Credentials Invalid." });
-        return res.json(result[0]);
+
+        // Generating Token
+        const data = {
+            user: { username, type: result[0].type },
+        };
+        const authToken = jwt.sign(data, JWT_SECRET);
+
+        return res.json({ authToken });
     });
 });
 
@@ -67,8 +76,14 @@ router.post("/register", [
             const query3 = `select * from USER where username='${username}'`;
             con.query(query3, (err3, res3) => {
                 if (err3) return res.status(501).json({ error: err3.sqlMessage });
-                if (res3.length === 0) return res.status(501).json({ error: "Login Credentials Invalid." });
-                return res.json(res3[0]);
+
+                // Generating Token
+                const data = {
+                    user: { username, type: res3[0].type },
+                };
+                const authToken = jwt.sign(data, JWT_SECRET);
+
+                return res.json({ authToken });
             })
         })
     });

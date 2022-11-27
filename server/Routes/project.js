@@ -1,0 +1,95 @@
+const express = require("express");
+const { uuid } = require("uuidv4");
+const jwt = require("jsonwebtoken");
+const { body, validationResult } = require("express-validator");
+const con = require("../db");
+const fetchuser = require("../middlewares/fetchuser");
+
+const JWT_SECRET = "NOT_SO_SECRET";
+const router = express.Router();
+
+router.get("/:id", fetchuser, async (req, res) => {
+    const { id } = req.params;
+    const query = `SELECT * FROM PROJECT WHERE project_id='${id}'`;
+
+    con.query(query, (err, result) => {
+        if (err) return res.status(501).json({ error: err.sqlMessage });
+        if (result.length === 0) return res.status(501).json({ error: "No project found." });
+        const project = result[0];
+        const { username, type } = req.user;
+        if (type === "S") {
+            con.query(`SELECT * FROM STUDENT_IN_TEAM WHERE s_id='${username}' AND team_id='${project.team_id}'`, (err2, res2) => {
+                if (err2) return res.status(501).json({ error: err2.sqlMessage });
+                if (res2.length === 0) return res.status(401).json({ error: "Not authorized to visit this page." });
+                return res.json(result[0]);
+            })
+        } else return res.json(result[0]);
+    })
+})
+
+router.post("/", [
+    body("name", "Name must be 4 to 15 characters long").isLength({ min: 4, max: 15 }),
+    body("teamId", "Team ID is invalid").isUUID()
+], fetchuser, async (req, res) => {
+    // Sending error if validator failed
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array()[0].msg });
+    }
+
+    let { name, description, teamId } = req.body;
+    if (!description) description = "";
+    const id = uuid();
+
+    const { username } = req.user;
+    con.query(`SELECT * FROM STUDENT_IN_TEAM WHERE s_id='${username}' AND team_id='${teamId}'`, (err, result) => {
+        if (err) return res.status(501).json({ error: err.sqlMessage });
+        if (result.length === 0) return res.status(401).json({ error: "Not authorized to visit this page." });
+    })
+
+    const query = `INSERT INTO PROJECT VALUES('${id}', '${name}','${description}','','CREATED','${teamId}')`;
+
+    con.query(query, (err, result) => {
+        if (err) return res.status(501).json({ error: err.sqlMessage });
+        const query2 = `select * from PROJECT where project_id='${id}'`;
+        con.query(query2, (err2, res2) => {
+            if (err2) return res.status(501).json({ error: err2.sqlMessage });
+            if (res2.length === 0) return res.status(501).json({ error: "No project found" });
+            return res.json(res2[0]);
+        })
+    })
+})
+
+router.post("/submit/:id", [
+    body("submissionLink", "Submission link is invalid").isLength({ min: 1 })
+], fetchuser, async (req, res) => {
+    // Sending error if validator failed
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array()[0].msg });
+    }
+
+    const { id } = req.params;
+    const { submissionLink } = req.body;
+
+    con.query(`SELECT * FROM PROJECT WHERE project_id='${id}'`, (err, result) => {
+        if (err) return res.status(501).json({ error: err.sqlMessage });
+        if (result.length === 0) return res.status(501).json({ error: "No project found." });
+        const project = result[0];
+
+        const { username } = req.user;
+        con.query(`SELECT * FROM STUDENT_IN_TEAM WHERE s_id='${username}' AND team_id='${project.team_id}'`, (err, result) => {
+            if (err) return res.status(501).json({ error: err.sqlMessage });
+            if (result.length === 0) return res.status(401).json({ error: "Not authorized to visit this page." });
+        })
+
+        const query = `UPDATE PROJECT SET sub_link='${submissionLink}',status='SUBMITTED' WHERE project_id='${id}'`;
+
+        con.query(query, (err, result) => {
+            if (err) return res.status(501).json({ error: err.sqlMessage });
+            return res.send("Submitted successfully");
+        })
+    })
+})
+
+module.exports = router;
