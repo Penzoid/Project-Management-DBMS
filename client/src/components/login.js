@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import AuthContext from "../Context/Auth/AuthContext";
 import "./common.css";
 
 export default function Login() {
+  const { loginUser } = useContext(AuthContext);
+
   return (
     <div
       style={{
