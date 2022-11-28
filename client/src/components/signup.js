@@ -1,10 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./common.css";
-// import AuthContext from "../Context/Auth/AuthContext";
+import AuthContext from "../Context/Auth/AuthContext";
 
 export default function SignUp() {
-  // const { loginUser } = useContext(AuthContext);
-  const [type, SetType] = useState("S");
+  const [data, setData] = useState({
+    fname: "",
+    lname: "",
+    password: "",
+    confirm_pass: "",
+    username: "",
+    email: "",
+    address: "",
+    mobile: "",
+    subject: "",
+    type: "S",
+  });
+  const { registerUser } = useContext(AuthContext);
+
+  const handleChange = () => {
+    setData({
+      fname: document.getElementById("fname").value,
+      lname: document.getElementById("lname").value,
+      password: document.getElementById("password").value,
+      confirm_pass: document.getElementById("confirm_pass").value,
+      username: document.getElementById("username").value,
+      email: document.getElementById("email").value,
+      address: document.getElementById("address").value,
+      mobile: document.getElementById("mobile").value,
+      type: document.getElementById("type").value,
+      subject: document.getElementById("subject").value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    if (data.type === "S") setData({ subject: "" });
+    registerUser(data);
+  };
+
   return (
     <div
       style={{
@@ -21,150 +53,175 @@ export default function SignUp() {
       <div className="container login-box">
         <center className="h1">Create Account</center>
         <hr />
-        <form class="row g-3">
-          <div class="col-md-6">
-            <label for="fname" class="form-label">
+        <form className="row g-3" onSubmit={handleSubmit}>
+          <div className="col-md-6">
+            <label htmlFor="fname" className="form-label">
               First_Name
             </label>
             <input
+              value={data.fname}
+              onChange={handleChange}
               type="text"
-              class="form-control"
+              className="form-control"
               id="fname"
               placeholder="Enter First Name"
               required
             />
           </div>
-          <div class="col-md-6">
-            <label for="lname" class="form-label">
+          <div className="col-md-6">
+            <label htmlFor="lname" className="form-label">
               Last_Name
             </label>
             <input
+              value={data.lname}
+              onChange={handleChange}
               type="text"
-              class="form-control"
+              className="form-control"
               id="lname"
               placeholder="Enter Last Name"
               required
             />
           </div>
-          <div class="col-md-6">
-            <label for="password" class="form-label">
+          <div className="col-md-6">
+            <label htmlFor="password" className="form-label">
               Password
             </label>
             <input
+              value={data.password}
+              onChange={handleChange}
               type="password"
-              class="form-control"
+              className="form-control"
               placeholder="Enter Password"
               id="password"
             />
           </div>
-          <div class="col-md-6">
-            <label for="confirm_pass" class="form-label">
+          <div className="col-md-6">
+            <label htmlFor="confirm_pass" className="form-label">
               Confirm Password
             </label>
             <input
+              value={data.confirm_pass}
+              onChange={handleChange}
               type="password"
-              class="form-control"
+              className="form-control"
               placeholder="Re-Enter Password"
               id="confirm_pass"
             />
           </div>
-          <div class="col-md-6">
-            <label for="validationCustomUsername" class="form-label">
+          <div className="col-md-6">
+            <label htmlFor="username" className="form-label">
               Username
             </label>
-            <div class="input-group has-validation">
-              <span class="input-group-text" id="inputGroupPrepend">
+            <div className="input-group has-validation">
+              <span className="input-group-text" id="inputGroupPrepend">
                 @
               </span>
               <input
+                value={data.username}
+                onChange={handleChange}
                 type="text"
-                class="form-control"
-                id="validationCustomUsername"
+                className="form-control"
+                id="username"
                 aria-describedby="inputGroupPrepend"
                 required
               />
             </div>
           </div>
-          <div class="col-md-6">
-            <label for="validationCustomUsername" class="form-label">
+          <div className="col-md-6">
+            <label htmlFor="email" className="form-label">
               Email
             </label>
-            <div class="input-group has-validation">
-              <span class="input-group-text" id="inputGroupPrepend">
+            <div className="input-group has-validation">
+              <span className="input-group-text" id="inputGroupPrepend">
                 <i className="fa fa-envelope"></i>
               </span>
               <input
+                value={data.email}
+                onChange={handleChange}
                 type="text"
-                class="form-control"
-                id="validationCustomUsername"
+                className="form-control"
+                id="email"
                 aria-describedby="inputGroupPrepend"
                 required
               />
             </div>
           </div>
-          <div class="col-12">
-            <label for="inputAddress" class="form-label">
+          <div className="col-12">
+            <label htmlFor="address" className="form-label">
               Address
             </label>
             <input
+              value={data.address}
+              onChange={handleChange}
               type="text"
-              class="form-control"
-              id="inputAddress"
+              className="form-control"
+              id="address"
               placeholder="1234 Main St"
             />
           </div>
-          <div class="col-4">
-            <label for="mobile" class="form-label">
+          <div className="col-4">
+            <label htmlFor="mobile" className="form-label">
               Mobile Number
             </label>
             <input
+              value={data.mobile}
+              onChange={handleChange}
               type="text"
-              class="form-control"
+              className="form-control"
               id="mobile"
               placeholder="Enter a valid mobile number"
             />
           </div>
-          <div class="col-md-4">
-            <label for="inputState" class="form-label">
+          <div className="col-md-4">
+            <label htmlFor="inputState" className="form-label">
               SignUp As
             </label>
-            <select
-              // value={type}
-              id="inputState"
-              class="form-select"
-              onChange={(e) => {
-                type === "S" ? SetType("T") : SetType("S");
-              }}
-            >
-              <option name="type">Student</option>
-              <option name="type">Teacher</option>
+            <select id="type" onChange={handleChange} className="form-select">
+              <option name="type" value={"S"}>
+                Student
+              </option>
+              <option name="type" value="T">
+                Teacher
+              </option>
             </select>
           </div>
-          <input type="hidden" value={type}></input>
-          {type === "T" ? (
-            <div class="col-4">
-              <label for="mobile" class="form-label">
+          {data.type === "T" ? (
+            <div className="col-4">
+              <label htmlFor="subject" className="form-label">
                 Subject
               </label>
               <input
+                value={data.subject}
+                onChange={handleChange}
                 type="text"
-                class="form-control"
-                id="mobile"
+                className="form-control"
+                id="subject"
                 placeholder="Enter Subject"
               />
             </div>
-          ) : null}
+          ) : (
+            <input
+              type="hidden"
+              id="subject"
+              value={data.subject}
+              onChange={handleChange}
+            ></input>
+          )}
 
-          <div class="col-12">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="gridCheck" />
-              <label class="form-check-label" for="gridCheck">
+          <div className="col-12">
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="gridCheck"
+              />
+              <label className="form-check-label" htmlFor="gridCheck">
                 Check me out
               </label>
             </div>
           </div>
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary">
+          <div className="col-12">
+            <button type="submit" className="btn btn-primary">
               Create Account
             </button>
           </div>

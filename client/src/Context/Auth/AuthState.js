@@ -30,8 +30,52 @@ const AuthState = (props) => {
     );
   };
 
+  const registerUser = async ({
+    fname,
+    lname,
+    password,
+    confirm_pass,
+    username,
+    email,
+    address,
+    mobile,
+    type,
+    subject,
+  }) => {
+    if (password === confirm_pass) {
+      const response = await fetch(HOST + "/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fname,
+          email,
+          password,
+          username,
+          address,
+          mobile,
+          type,
+          subject,
+        }),
+      });
+      const json = await response.json();
+      checkRequest(
+        response.status,
+        json.error,
+        "Registered successfully",
+        async () => {
+          await localStorage.setItem("token", JSON.stringify(json.authToken));
+          history.push("/");
+        }
+      );
+    } else {
+      checkRequest(404, "Passwords do not match", "", () => {});
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ loginUser }}>
+    <AuthContext.Provider value={{ loginUser, registerUser }}>
       {props.children}
     </AuthContext.Provider>
   );

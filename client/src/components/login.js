@@ -1,9 +1,25 @@
-import React from "react";
-// import AuthContext from "../Context/Auth/AuthContext";
+import React, { useState, useContext } from "react";
+import AuthContext from "../Context/Auth/AuthContext";
 import "./common.css";
 
 export default function Login() {
-  // const { loginUser } = useContext(AuthContext);
+  const { loginUser } = useContext(AuthContext);
+  const [data, setData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setData({
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value,
+    });
+    console.log(data);
+  };
+
+  const handleSubmit = (e) => {
+    loginUser(data);
+  };
 
   return (
     <div
@@ -18,59 +34,63 @@ export default function Login() {
         alignItems: "center",
       }}
     >
-      <div class="container login-box">
+      <div className="container login-box">
         <center className="h1">Login</center>
         <hr />
-        <form class="px-4 py-3">
-          <div class="mb-3">
-            <label for="username" class="form-label">
+        <form className="px-4 py-3" onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
               Username :
             </label>
             <input
-              type="email"
-              class="form-control"
+              value={data.username}
+              onChange={handleChange}
+              type="text"
+              className="form-control"
               id="username"
               placeholder="Enter Username"
             />
           </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
               Password :
             </label>
             <input
+              value={data.password}
+              onChange={handleChange}
               type="password"
-              class="form-control"
+              className="form-control"
               id="password"
               placeholder="Enter Password"
             />
           </div>
-          <div class="mb-3">
-            <div class="form-check">
+          <div className="mb-3">
+            <div className="form-check">
               <input
                 type="checkbox"
-                class="form-check-input"
+                className="form-check-input"
                 id="dropdownCheck"
               />
-              <label class="form-check-label" for="dropdownCheck">
+              <label className="form-check-label" htmlFor="dropdownCheck">
                 Remember me
               </label>
             </div>
           </div>
           <div className="d-flex justify-content-evenly">
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" className="btn btn-primary">
               Sign in
             </button>
-            <button type="reset" value="reset" class="btn btn-primary">
+            <button type="reset" value="reset" className="btn btn-primary">
               Reset
             </button>
           </div>
         </form>
         <hr />
-        <center class="d-flex justify-content-around">
-          <a class="dropdown-item" href="/create_account">
+        <center className="d-flex justify-content-around">
+          <a className="dropdown-item" href="/create_account">
             New around here? Sign up
           </a>
-          <a class="dropdown-item" href="/forgot_password">
+          <a className="dropdown-item" href="/forgot_password">
             Forgot password?
           </a>
         </center>
