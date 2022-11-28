@@ -33,6 +33,7 @@ export default function SignUp() {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     if (data.type === "S") setData({ subject: "" });
     registerUser(data);
   };

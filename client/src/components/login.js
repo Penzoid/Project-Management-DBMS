@@ -14,10 +14,10 @@ export default function Login() {
       username: document.getElementById("username").value,
       password: document.getElementById("password").value,
     });
-    console.log(data);
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     loginUser(data);
   };
 

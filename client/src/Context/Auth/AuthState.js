@@ -11,6 +11,7 @@ const AuthState = (props) => {
 
   // Logging In
   const loginUser = async ({ username, password }) => {
+    console.log(username, password);
     const response = await fetch(HOST + "/login", {
       method: "POST",
       headers: {
@@ -25,7 +26,7 @@ const AuthState = (props) => {
       "Logged in successfully",
       async () => {
         localStorage.setItem("token", JSON.stringify(json.authToken));
-        history.push("/");
+        history("/");
       }
     );
   };
@@ -50,7 +51,8 @@ const AuthState = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fname,
+          first_name: fname,
+          last_name: lname,
           email,
           password,
           username,
@@ -66,17 +68,27 @@ const AuthState = (props) => {
         json.error,
         "Registered successfully",
         async () => {
-          await localStorage.setItem("token", JSON.stringify(json.authToken));
-          history.push("/");
+          localStorage.setItem("token", JSON.stringify(json.authToken));
+          history("/");
         }
       );
     } else {
-      checkRequest(404, "Passwords do not match", "", () => {});
+      checkRequest(404, "Passwords do not match", "", () => { });
     }
   };
 
+  const fetchUser = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (token) {
+      return true;
+    }
+    else {
+      history("/login");
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ loginUser, registerUser }}>
+    <AuthContext.Provider value={{ loginUser, registerUser, fetchUser }}>
       {props.children}
     </AuthContext.Provider>
   );

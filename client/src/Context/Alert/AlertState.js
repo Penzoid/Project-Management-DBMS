@@ -9,7 +9,7 @@ const AlertState = (props) => {
         if (localStorage["alertTime"] != null) clearTimeout(localStorage["alertTime"]);
         let s = setTimeout(() => {
             setAlert(null);
-        }, 2000);
+        }, 3500);
         localStorage["alertTime"] = s;
     };
 
