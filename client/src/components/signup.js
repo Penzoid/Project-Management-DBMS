@@ -220,11 +220,20 @@ export default function SignUp() {
               </label>
             </div>
           </div>
-          <div className="col-12">
+          <div className="d-flex justify-content-evenly">
             <button type="submit" className="btn btn-primary">
               Create Account
             </button>
+            <button type="reset" value="reset" className="btn btn-primary">
+              Reset
+            </button>
           </div>
+          <hr />
+          <center className="d-flex justify-content-around">
+            <a className="dropdown-item" href="/login">
+              Already have an account? Login
+            </a>
+          </center>
         </form>
       </div>
     </div>

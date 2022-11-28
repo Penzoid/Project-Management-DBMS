@@ -43,9 +43,10 @@ const AuthState = (props) => {
     subject,
   }) => {
     if (password === confirm_pass) {
-      const response = await fetch(HOST + "/create", {
+      const response = await fetch(HOST + "/register", {
         method: "POST",
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
