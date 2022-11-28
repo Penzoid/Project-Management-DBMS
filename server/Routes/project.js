@@ -33,6 +33,27 @@ router.get("/:id", fetchuser, async (req, res) => {
     })
 })
 
+router.get("/all/:teamId", fetchuser, async (req, res) => {
+    const { teamId } = req.params
+    const { username, type } = req.user;
+
+    if (type === "T") {
+        con.query(`SELECT * FROM PROJECT WHERE team_id='${teamId}'`, (err, result) => {
+            if (err) return res.status(501).json({ error: err.sqlMessage });
+            return res.json(result);
+        })
+    } else if (type === "S") {
+        con.query(`SELECT * FROM STUDENT_IN_TEAM WHERE s_id='${username}' AND team_id='${teamId}'`, (err, result) => {
+            if (err) return res.status(501).json({ error: err.sqlMessage });
+            if (result.length === 0) return res.status(501).json({ error: "Not authorized" });
+            con.query(`SELECT * FROM PROJECT WHERE team_id='${teamId}'`, (err, result) => {
+                if (err) return res.status(501).json({ error: err.sqlMessage });
+                return res.json(result);
+            })
+        })
+    }
+})
+
 router.post("/", [
     body("name", "Name must be 4 to 15 characters long").isLength({ min: 4, max: 15 }),
     body("teamId", "Team ID is invalid").isUUID()

@@ -39,30 +39,30 @@ const ProjectState = (props) => {
   }
 
   // Get All Projects
-  // const getAllTeams = async ({ id }) => {
-  //   const token = JSON.parse(localStorage.getItem("token"));
-  //   if (!token) {
-  //     checkRequest(
-  //       401,
-  //       null,
-  //       null,
-  //       () => { history("/login") }
-  //     );
-  //   }
-  //   const response = await fetch(HOST + "/" + id, {
-  //     method: "GET",
-  //     headers: {
-  //       "auth-token": JSON.stringify(token),
-  //     },
-  //   });
-  //   const json = await response.json();
-  //   checkRequest(
-  //     response.status,
-  //     json.error,
-  //     null,
-  //     () => { setProjects(json); }
-  //   );
-  // }
+  const getAllProjects = async ({ teamId }) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (!token) {
+      checkRequest(
+        401,
+        null,
+        null,
+        () => { history("/login") }
+      );
+    }
+    const response = await fetch(HOST + "/all" + teamId, {
+      method: "GET",
+      headers: {
+        "auth-token": JSON.stringify(token),
+      },
+    });
+    const json = await response.json();
+    checkRequest(
+      response.status,
+      json.error,
+      null,
+      () => { setProjects(json); }
+    );
+  }
 
   // Create Project
   const createProject = async ({ name, description, teamId }) => {
@@ -152,7 +152,7 @@ const ProjectState = (props) => {
 
   return (
     <ProjectContext.Provider value={{
-      getById, createProject, submitProject, gradeProject,
+      getById, getAllProjects, createProject, submitProject, gradeProject,
       currentProject, projects
     }}>
       {props.children}

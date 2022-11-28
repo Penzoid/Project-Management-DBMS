@@ -76,17 +76,18 @@ router.post("/addStudent", [
     }
 
     const { teamId, username } = req.body;
-
     const user = req.user;
-    if (user.username !== username) return res.status(401).json({
-        error: "Not authorized"
-    })
 
-    const query = `INSERT INTO STUDENT_IN_TEAM VALUES('${username}', '${teamId}')`;
-
-    con.query(query, (err, result) => {
+    con.query(`SELECT * FROM STUDENT_IN_TEAM WHERE s_id='${user.username}' AND team_id='${teamId}'`, (err, result) => {
         if (err) return res.status(501).json({ error: err.sqlMessage });
-        return res.send("Success");
+        if (result.length === 0) return res.status(401).json({ error: "Not authorized" });
+
+        const query = `INSERT INTO STUDENT_IN_TEAM VALUES('${username}', '${teamId}')`;
+
+        con.query(query, (err, result) => {
+            if (err) return res.status(501).json({ error: err.sqlMessage });
+            return res.send("Success");
+        })
     })
 })
 
