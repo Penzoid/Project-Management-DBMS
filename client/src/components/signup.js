@@ -32,10 +32,10 @@ export default function SignUp() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (data.type === "S") setData({ subject: "" });
-    registerUser(data);
+    await registerUser(data);
   };
 
   return (

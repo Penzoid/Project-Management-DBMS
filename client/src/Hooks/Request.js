@@ -7,9 +7,9 @@ const useRequest = () => {
     const checkRequest = (status, error, success, callback) => {
         if (status === 200) {
             callback();
-            showAlert("success", success);
+            if (success) showAlert("success", success);
         } else {
-            showAlert("danger", error);
+            if (error) showAlert("danger", error);
         }
     };
 
