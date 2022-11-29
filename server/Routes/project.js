@@ -50,7 +50,7 @@ router.get("/all/:teamId", fetchuser, async (req, res) => {
 
   if (type === "T") {
     con.query(
-      `SELECT * FROM PROJECT WHERE team_id='${teamId}' and  status='SUBMITTED'`,
+      `SELECT * FROM PROJECT WHERE team_id='${teamId}' and  (status='SUBMITTED' or status='GRADED')`,
       (err, result) => {
         if (err) return res.status(501).json({ error: err.sqlMessage });
         return res.json(result);
@@ -111,6 +111,7 @@ router.post(
     const query = `INSERT INTO PROJECT VALUES('${id}', '${name}','${description}','','CREATED','${teamId}')`;
 
     con.query(query, (err, result) => {
+      console.log(err);
       if (err) return res.status(501).json({ error: err.sqlMessage });
       const query2 = `select * from PROJECT where project_id='${id}'`;
       con.query(query2, (err2, res2) => {

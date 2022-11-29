@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import ProjectContext from "../Context/Project/ProjectContext";
 import { useParams } from "react-router-dom";
+import ProjectGrade from "./projectGrade";
 
 export default function Project() {
   let { project_id } = useParams();
-  const { getById, currentProject, submitProject } = useContext(ProjectContext);
+  const { getById, currentProject, submitProject, gradeProject } =
+    useContext(ProjectContext);
 
   useEffect(() => {
     getById({ id: project_id });
@@ -35,7 +37,9 @@ export default function Project() {
         {currentProject.status === "SUBMITTED" ? (
           <div>
             <div style={{ color: "green" }}>Project Submitted</div>{" "}
-            <span> Waiting for grades</span>
+            {JSON.parse(localStorage.getItem("userType")) === "S" && (
+              <span> Waiting for grades</span>
+            )}
           </div>
         ) : currentProject.status === "GRADED" ? (
           <div
@@ -57,36 +61,46 @@ export default function Project() {
             <span>{currentProject.remark}</span>
           </div>
         ) : (
-          <form className="row g-3" onSubmit={handleSubmit}>
-            <div className="col-md-6">
-              <label htmlFor="link" className="form-label">
-                submission Link
-              </label>
-              <div className="input-group has-validation">
-                <span className="input-group-text">
-                  <i className="fa fa-link"></i>
-                </span>
-                <input
-                  value={data.link}
-                  onChange={handleChange}
-                  type="url"
-                  className="form-control"
-                  id="link"
-                  placeholder="Enter Submission URL"
-                  required
-                />
-                <span>
-                  <button
-                    className="btn btn-success"
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Submit
-                  </button>
-                </span>
+          JSON.parse(localStorage.getItem("userType")) === "S" && (
+            <form className="row g-3" onSubmit={handleSubmit}>
+              <div className="col-md-6">
+                <label htmlFor="link" className="form-label">
+                  submission Link
+                </label>
+                <div className="input-group has-validation">
+                  <span className="input-group-text">
+                    <i className="fa fa-link"></i>
+                  </span>
+                  <input
+                    value={data.link}
+                    onChange={handleChange}
+                    type="url"
+                    className="form-control"
+                    id="link"
+                    placeholder="Enter Submission URL"
+                    required
+                  />
+                  <span>
+                    <button
+                      className="btn btn-success"
+                      style={{ marginLeft: "10px" }}
+                    >
+                      Submit
+                    </button>
+                  </span>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          )
         )}
+        {currentProject.status === "SUBMITTED" &&
+          JSON.parse(localStorage.getItem("userType")) === "T" && (
+            <ProjectGrade
+              project_id={project_id}
+              currentProject={currentProject}
+              gradeProject={gradeProject}
+            />
+          )}
       </div>
     )
   );

@@ -37,22 +37,16 @@ export default function Team() {
         }}
       >
         <center className="h1">Your Projects</center>
-        <div className="d-flex align-items-center tool-box">
-          <a href={`${team_id}/create_project`} className="btn btn-success">
-            Add New Project
-          </a>
-          <a href={`${team_id}/add_student`} className="btn btn-success">
-            Add Student
-          </a>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-          </form>
-        </div>
+        {JSON.parse(localStorage.getItem("userType")) === "S" && (
+          <div className="d-flex align-items-center tool-box">
+            <a href={`${team_id}/create_project`} className="btn btn-success">
+              Add New Project
+            </a>
+            <a href={`${team_id}/add_student`} className="btn btn-success">
+              Add Student
+            </a>
+          </div>
+        )}
         <hr style={{ color: "red" }} />
       </div>
 
@@ -62,24 +56,22 @@ export default function Team() {
         ) : null}
         {projects.map((project, i) => {
           return (
-            <>
-              <a
-                href={`${team_id}/${project.project_id}`}
-                className="card"
-                style={{ width: "18rem", margin: "20px" }}
-                key={i}
-              >
-                <div className="card-body card-style">
-                  <div className="card-title">
-                    <div className="h4">{project.project_name}</div>
-                  </div>
-                  <hr />
-                  <p className="card-text">
-                    <b>Description:</b> {project.description}
-                  </p>
+            <a
+              href={`${team_id}/${project.project_id}`}
+              className="card"
+              style={{ width: "18rem", margin: "20px" }}
+              key={i}
+            >
+              <div className="card-body card-style">
+                <div className="card-title">
+                  <div className="h4">{project.project_name}</div>
                 </div>
-              </a>
-            </>
+                <hr />
+                <p className="card-text">
+                  <b>Description:</b> {project.description}
+                </p>
+              </div>
+            </a>
           );
         })}
       </div>

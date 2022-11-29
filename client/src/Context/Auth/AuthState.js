@@ -26,6 +26,7 @@ const AuthState = (props) => {
       "Logged in successfully",
       async () => {
         localStorage.setItem("token", JSON.stringify(json.authToken));
+        localStorage.setItem("userType", JSON.stringify(json.type));
         history("/");
       }
     );
@@ -70,6 +71,7 @@ const AuthState = (props) => {
         "Registered successfully",
         async () => {
           localStorage.setItem("token", JSON.stringify(json.authToken));
+          localStorage.setItem("userType", JSON.stringify(json.type));
           history("/");
         }
       );

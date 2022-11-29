@@ -77,6 +77,7 @@ const ProjectState = (props) => {
       "Project created successfully",
       async () => {
         setCurrentProject(json);
+        history("/teams/" + teamId + "/" + json.project_id);
       }
     );
   };

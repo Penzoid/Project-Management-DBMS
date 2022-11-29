@@ -39,7 +39,7 @@ router.post(
       };
       const authToken = jwt.sign(data, JWT_SECRET);
 
-      return res.json({ authToken });
+      return res.json({ authToken, type: result[0].type });
     });
   }
 );
@@ -118,7 +118,7 @@ router.post(
           };
           const authToken = jwt.sign(data, JWT_SECRET);
 
-          return res.json({ authToken });
+          return res.json({ authToken, type: res3[0].type });
         });
       });
     });

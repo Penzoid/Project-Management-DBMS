@@ -35,49 +35,34 @@ export default function Teams() {
       >
         <h1>Your Teams</h1>
       </div>
-      <form
-        className="d-flex"
-        role="search"
-        style={{ position: "fixed", zIndex: 80, top: "80px", right: "50px" }}
-      >
-        <input
-          className="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button className="btn btn-outline-success" type="submit">
-          Search
-        </button>
-      </form>
 
       <div className="d-flex project-box m-4" style={{ flexFlow: "wrap" }}>
         {teams.map((team, i) => {
           return (
-            <>
-              <a
-                href={`/teams/${team.team_id}`}
-                className="card"
-                style={{ width: "18rem", margin: "20px" }}
-                key={i}
-              >
-                <div className="card-body card-style">
-                  <div className="card-title">
-                    <div className="h4">{team.team_name}</div>
-                  </div>
-                  <hr />
-                  <p className="card-text">
-                    <b>Description:</b> {team.team_desc}
-                  </p>
+            <a
+              href={`/teams/${team.team_id}`}
+              className="card"
+              style={{ width: "18rem", margin: "20px" }}
+              key={i}
+            >
+              <div className="card-body card-style">
+                <div className="card-title">
+                  <div className="h4">{team.team_name}</div>
                 </div>
-              </a>
-            </>
+                <hr />
+                <p className="card-text">
+                  <b>Description:</b> {team.team_desc}
+                </p>
+              </div>
+            </a>
           );
         })}
       </div>
-      <a className="add-btn" href="/create_team">
-        <i className="fa fa-plus"></i>
-      </a>
+      {JSON.parse(localStorage.getItem("userType")) === "S" && (
+        <a className="add-btn" href="/create_team">
+          <i className="fa fa-plus"></i>
+        </a>
+      )}
     </div>
   );
 }
