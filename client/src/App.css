@@ -1,36 +1,39 @@
-body{
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    height: 100vh;
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
 }
-.footer{
-    position: fixed;
-    z-index: 100;
-    bottom: 0 ;
-    width: 100%;
-    background: yellow;
-    overflow-y: hidden;
-    height: 15px;
-    transition: 1s;
-    border-top: 2px solid rgb(31, 29, 29);
+a {
+  text-decoration: none;
+}
+.footer {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  width: 100%;
+  background: yellow;
+  overflow-y: hidden;
+  height: 15px;
+  transition: 1s;
+  border-top: 2px solid rgb(31, 29, 29);
 }
 
-.footer:hover{
-    height: 300px;
+.footer:hover {
+  height: 300px;
 }
 
-.foot-t{
-    background-color: white;
-    height: 5px;
-    width: 50px;
-    margin-top: 5px;
-    border-radius: 5px;
+.foot-t {
+  background-color: white;
+  height: 5px;
+  width: 50px;
+  margin-top: 5px;
+  border-radius: 5px;
 }
-.footer .container{
-    margin: 10px;
-    margin-top: 25px;
+.footer .container {
+  margin: 10px;
+  margin-top: 25px;
 }
-.footer .container *{
-    font-size: large;
+.footer .container * {
+  font-size: large;
 }

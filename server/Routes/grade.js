@@ -7,7 +7,7 @@ const fetchuser = require("../middlewares/fetchuser");
 const router = express.Router();
 
 router.get("/", fetchuser, async (req, res) => {
-  con.query("call PTG()", (err, result) => {
+  con.query("call grades()", (err, result) => {
     if (err) return res.status(501).json({ error: err.sqlMessage });
     let ansList = Array.from(result).slice(0, result.length - 1);
     let finalList = [];

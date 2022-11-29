@@ -48,7 +48,7 @@ export default function Home() {
           </p>
         </div>
       </div> */}
-      <div id="notion2embed" class="cleanslate"></div>
+      <div id="notion2embed" className="cleanslate"></div>
     </div>
   );
 }

@@ -15,21 +15,21 @@ export default function ForgotPass() {
         alignItems: "center",
       }}
     >
-      <div class="container login-box">
+      <div className="container login-box">
         <center className="h1">Forgot Password</center>
         <hr />
         <form action="" className="container" autoComplete="off">
-          <div class="col-md-10">
-            <label for="validationCustomUsername" class="form-label">
+          <div className="col-md-10">
+            <label for="validationCustomUsername" className="form-label">
               Username
             </label>
-            <div class="input-group has-validation">
-              <span class="input-group-text" id="inputGroupPrepend">
+            <div className="input-group has-validation">
+              <span className="input-group-text" id="inputGroupPrepend">
                 <i className="fa fa-envelope"></i>
               </span>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="validationCustomUsername"
                 aria-describedby="inputGroupPrepend"
                 required
