@@ -1,9 +1,9 @@
 use PROJECT_MANAGEMENT_SYSTEM;
 
+drop procedure PTG;
 delimiter $$
 
-SET @plist = "";
-CREATE OR REPLACE procedure PTG()
+CREATE procedure PTG()
 begin
     DECLARE grade varchar(5);
     DECLARE project varchar(50);
