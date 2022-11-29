@@ -143,6 +143,9 @@ const ProjectState = (props) => {
       (process.env.BACKEND_URL || "http://localhost:5000") + "/grade",
       {
         method: "GET",
+        headers: {
+          "auth-token": token,
+        },
       }
     );
     const json = await response.json();
