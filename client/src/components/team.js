@@ -42,7 +42,7 @@ export default function Team() {
             background: "white",
           }}
         >
-          <center className="h1">Your Projects</center>
+          <center className="h1">{currentUser.type === "S" ? "Your" : ""} Projects</center>
           {currentUser.type === "S" && (
             <div className="d-flex align-items-center tool-box">
               <Link
@@ -64,7 +64,7 @@ export default function Team() {
 
         <div className="d-flex project-box m-4" style={{ flexFlow: "wrap" }}>
           {projects.length === 0 ? (
-            <div className="h1 my-5">No results Found</div>
+            <div className="h1 my-5">No results found</div>
           ) : null}
           {projects.map((project, i) => {
             return (

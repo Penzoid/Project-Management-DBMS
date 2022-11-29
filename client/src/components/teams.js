@@ -38,7 +38,7 @@ export default function Teams() {
             background: "white",
           }}
         >
-          <h1>Your Teams</h1>
+          <h1>{currentUser.type === "S" ? "Your" : ""} Teams</h1>
         </div>
 
         <div className="d-flex project-box m-4" style={{ flexFlow: "wrap" }}>
