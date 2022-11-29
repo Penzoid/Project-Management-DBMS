@@ -111,7 +111,6 @@ router.post(
     const query = `INSERT INTO PROJECT VALUES('${id}', '${name}','${description}','','CREATED','${teamId}')`;
 
     con.query(query, (err, result) => {
-      console.log(err);
       if (err) return res.status(501).json({ error: err.sqlMessage });
       const query2 = `select * from PROJECT where project_id='${id}'`;
       con.query(query2, (err2, res2) => {
@@ -168,6 +167,27 @@ router.post(
         });
       }
     );
+  }
+);
+
+router.delete(
+  "/:id",
+  fetchuser,
+  async (req, res) => {
+    const { id } = req.params;
+    const { username, type } = req.user;
+    if (type === "T") return res.status(401).json({ error: "Not Authorized" });
+
+    con.query(`SELECT * FROM PROJECT P, STUDENT_IN_TEAM S WHERE P.project_id='${id}' AND P.team_id=S.team_id AND S.s_id='${username}'`, (err, result) => {
+      if (err) return res.status(501).json({ error: err.sqlMessage });
+      if (result.length === 0) return res
+        .status(401)
+        .json({ error: "Not authorized." });
+      con.query(`DELETE FROM PROJECT WHERE project_id='${id}'`, (err, result) => {
+        if (err) return res.status(501).json({ error: err.sqlMessage });
+        return res.json("Deleted Successfully");
+      })
+    })
   }
 );
 

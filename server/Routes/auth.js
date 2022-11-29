@@ -28,7 +28,6 @@ router.post(
 
     const { username, password } = req.body;
     const query = `select * from USER where username='${username}' and password='${password}'`;
-    console.log(query);
     con.query(query, function (err, result) {
       if (err) return res.status(501).json({ error: err.sqlMessage });
       if (result.length === 0)
@@ -135,6 +134,43 @@ router.post("/fetch", fetchUser, async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// router.delete(
+//   "/",
+//   [
+//     body("username", "Username must be 4 to 10 characters long.").isLength({
+//       min: 4,
+//       max: 10,
+//     }),
+//     body("password", "Password must be 8 to 12 characters long.").isLength({
+//       min: 8,
+//       max: 12,
+//     }),
+//   ],
+//   async (req, res) => {
+//     // Sending error if validator failed
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ error: errors.array()[0].msg });
+//     }
+
+//     const { username, password } = req.body;
+//     const query = `select * from USER where username='${username}' and password='${password}'`;
+//     con.query(query, function (err, result) {
+//       if (err) return res.status(501).json({ error: err.sqlMessage });
+//       if (result.length === 0)
+//         return res.status(501).json({ error: "No user found." });
+
+//       // Generating Token
+//       const data = {
+//         user: { username, type: result[0].type },
+//       };
+//       const authToken = jwt.sign(data, JWT_SECRET);
+
+//       return res.json({ authToken });
+//     });
+//   }
+// );
 
 
 module.exports = router;

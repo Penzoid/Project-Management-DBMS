@@ -16,13 +16,13 @@ create table USER(
 
 create table STUDENT(
     s_id varchar(12) primary key,
-    constraint foreign key(s_id) references USER(username)
+    constraint foreign key(s_id) references USER(username) ON DELETE CASCADE
 );
 
 create table TEACHER(
     t_id varchar(12) primary key,
     subject char(20) NOT NULL,
-    constraint foreign key(t_id) references USER(username)
+    constraint foreign key(t_id) references USER(username) ON DELETE CASCADE
 );
 
 create table TEAM(
@@ -38,7 +38,7 @@ create table PROJECT(
     sub_link varchar(255),
     status char(10),
     team_id varchar(50) NOT NULL,
-    constraint foreign key(team_id) references TEAM(team_id)
+    constraint foreign key(team_id) references TEAM(team_id) ON DELETE CASCADE
 );
 
 create table GRADE(
@@ -46,7 +46,7 @@ create table GRADE(
     grade varchar(5) NOT NULL,
     remark varchar(255),
     gradedBy varchar(12) NOT NULL,
-    constraint foreign key(project_id) references PROJECT(project_id),
+    constraint foreign key(project_id) references PROJECT(project_id) ON DELETE CASCADE,
     constraint foreign key(gradedBy) references TEACHER(t_id)
 );
 
@@ -54,6 +54,6 @@ create table STUDENT_IN_TEAM(
     s_id varchar(12),
     team_id varchar(50),
     constraint pk primary key(s_id,team_id),
-    constraint foreign key(team_id) references TEAM(team_id),
-    constraint foreign key(s_id) references STUDENT(s_id)
+    constraint foreign key(team_id) references TEAM(team_id) ON DELETE CASCADE,
+    constraint foreign key(s_id) references STUDENT(s_id) ON DELETE CASCADE
 );

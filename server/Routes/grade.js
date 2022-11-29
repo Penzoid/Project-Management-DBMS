@@ -6,7 +6,7 @@ const fetchuser = require("../middlewares/fetchuser");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
   con.query("call PTG()", (err, result) => {
     if (err) return res.status(501).json({ error: err.sqlMessage });
     let ansList = Array.from(result).slice(0, result.length - 1);
@@ -14,7 +14,24 @@ router.get("/", async (req, res) => {
     ansList.forEach(el => {
       finalList.push(el[0]);
     });
-    return res.json(finalList);
+
+    const { username, type } = req.user;
+    if (type === "S") {
+      con.query(`SELECT T.team_id FROM STUDENT S, STUDENT_IN_TEAM T WHERE S.s_id=T.s_id AND S.s_id='${username}'`, (err, result) => {
+        if (err) return res.status(501).json({ error: err.sqlMessage });
+        let studentList = finalList.filter(el => {
+          let flag = false;
+          Array.from(result).forEach(rs => {
+            if (rs.team_id === el.team_id) {
+              flag = true;
+              return;
+            }
+          })
+          return flag;
+        })
+        return res.json(studentList);
+      })
+    } else return res.json(finalList);
   })
 });
 
