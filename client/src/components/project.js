@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import ProjectContext from "../Context/Project/ProjectContext";
+import AuthContext from "../Context/Auth/AuthContext";
 import { useParams } from "react-router-dom";
 import ProjectGrade from "./projectGrade";
 
@@ -7,8 +8,10 @@ export default function Project() {
   let { project_id } = useParams();
   const { getById, currentProject, submitProject, gradeProject } =
     useContext(ProjectContext);
+  const { currentUser, fetchUser } = useContext(AuthContext);
 
   useEffect(() => {
+    fetchUser();
     getById({ id: project_id });
   }, [project_id]);
 
@@ -25,7 +28,7 @@ export default function Project() {
   };
 
   return (
-    currentProject && (
+    currentProject && currentUser && (
       <div className="container">
         <h1>{currentProject.project_name}</h1>
         <b>description:</b>{" "}
@@ -37,7 +40,7 @@ export default function Project() {
         {currentProject.status === "SUBMITTED" ? (
           <div>
             <div style={{ color: "green" }}>Project Submitted</div>{" "}
-            {JSON.parse(localStorage.getItem("userType")) === "S" && (
+            {currentUser.type === "S" && (
               <span> Waiting for grades</span>
             )}
           </div>
@@ -61,7 +64,7 @@ export default function Project() {
             <span>{currentProject.remark}</span>
           </div>
         ) : (
-          JSON.parse(localStorage.getItem("userType")) === "S" && (
+          currentUser.type === "S" && (
             <form className="row g-3" onSubmit={handleSubmit}>
               <div className="col-md-6">
                 <label htmlFor="link" className="form-label">
@@ -94,7 +97,7 @@ export default function Project() {
           )
         )}
         {currentProject.status === "SUBMITTED" &&
-          JSON.parse(localStorage.getItem("userType")) === "T" && (
+          currentUser.type === "T" && (
             <ProjectGrade
               project_id={project_id}
               currentProject={currentProject}

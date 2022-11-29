@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const con = require("../db");
+const fetchUser = require("../middlewares/fetchuser")
 
 const JWT_SECRET = "NOT_SO_SECRET";
 const router = express.Router();
@@ -39,7 +40,7 @@ router.post(
       };
       const authToken = jwt.sign(data, JWT_SECRET);
 
-      return res.json({ authToken, type: result[0].type });
+      return res.json({ authToken });
     });
   }
 );
@@ -118,11 +119,22 @@ router.post(
           };
           const authToken = jwt.sign(data, JWT_SECRET);
 
-          return res.json({ authToken, type: res3[0].type });
+          return res.json({ authToken });
         });
       });
     });
   }
 );
+
+router.post("/fetch", fetchUser, async (req, res) => {
+  try {
+    // Finding User
+    const { username, type } = req.user;
+    return res.json({ username, type });
+  } catch (error) {
+    return res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
 
 module.exports = router;

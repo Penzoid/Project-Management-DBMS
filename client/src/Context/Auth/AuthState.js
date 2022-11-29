@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useRequest from "../../Hooks/Request";
 import AuthContext from "./AuthContext";
@@ -6,12 +6,12 @@ import AuthContext from "./AuthContext";
 const AuthState = (props) => {
   const HOST = (process.env.BACKEND_URL || "http://localhost:5000") + "/auth";
 
+  const [currentUser, setCurrentUser] = useState(null);
   const checkRequest = useRequest();
   const history = useNavigate();
 
   // Logging In
   const loginUser = async ({ username, password }) => {
-    console.log(username, password);
     const response = await fetch(HOST + "/login", {
       method: "POST",
       headers: {
@@ -26,7 +26,6 @@ const AuthState = (props) => {
       "Logged in successfully",
       async () => {
         localStorage.setItem("token", JSON.stringify(json.authToken));
-        localStorage.setItem("userType", JSON.stringify(json.type));
         history("/");
       }
     );
@@ -71,26 +70,41 @@ const AuthState = (props) => {
         "Registered successfully",
         async () => {
           localStorage.setItem("token", JSON.stringify(json.authToken));
-          localStorage.setItem("userType", JSON.stringify(json.type));
           history("/");
         }
       );
     } else {
-      checkRequest(404, "Passwords do not match", "", () => {});
+      checkRequest(404, "Passwords do not match", "", () => { });
     }
   };
 
-  const fetchUser = () => {
+  // Fetch User
+  const fetchUser = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token) {
-      return true;
+      const response = await fetch(HOST + "/fetch", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token
+        },
+      });
+      const json = await response.json();
+      checkRequest(
+        response.status,
+        json.error,
+        null,
+        async () => {
+          setCurrentUser(json);
+        }
+      );
     } else {
       history("/login");
     }
   };
 
   return (
-    <AuthContext.Provider value={{ loginUser, registerUser, fetchUser }}>
+    <AuthContext.Provider value={{ loginUser, registerUser, fetchUser, currentUser }}>
       {props.children}
     </AuthContext.Provider>
   );

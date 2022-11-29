@@ -1,19 +1,24 @@
 import React, { useContext, useEffect } from "react";
 import ProjectContext from "../Context/Project/ProjectContext";
+import AuthContext from "../Context/Auth/AuthContext";
 import { useParams } from "react-router-dom";
 import "./common.css";
 
 export default function Team() {
   const { getAllProjects, projects } = useContext(ProjectContext);
+  const { currentUser, fetchUser } = useContext(AuthContext);
+
   let { team_id } = useParams();
+
   useEffect(() => {
     if (team_id) {
+      fetchUser();
       getAllProjects({ teamId: team_id });
     }
   }, [team_id]);
 
   return (
-    <div
+    currentUser && <div
       style={{
         margin: "20px",
         marginTop: "50px",
@@ -37,7 +42,7 @@ export default function Team() {
         }}
       >
         <center className="h1">Your Projects</center>
-        {JSON.parse(localStorage.getItem("userType")) === "S" && (
+        {currentUser.type === "S" && (
           <div className="d-flex align-items-center tool-box">
             <a href={`${team_id}/create_project`} className="btn btn-success">
               Add New Project

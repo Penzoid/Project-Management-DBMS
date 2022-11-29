@@ -1,16 +1,19 @@
 import React, { useContext, useEffect } from "react";
 import "./common.css";
 import TeamContext from "../Context/Team/TeamContext";
+import AuthContext from "../Context/Auth/AuthContext";
 
 export default function Teams() {
   const { getAllTeams, teams } = useContext(TeamContext);
+  const { currentUser, fetchUser } = useContext(AuthContext);
 
   useEffect(() => {
+    fetchUser();
     getAllTeams();
   }, []);
 
   return (
-    <div
+    currentUser && <div
       style={{
         margin: "20px",
         marginTop: "50px",
@@ -58,7 +61,7 @@ export default function Teams() {
           );
         })}
       </div>
-      {JSON.parse(localStorage.getItem("userType")) === "S" && (
+      {currentUser.type === "S" && (
         <a className="add-btn" href="/create_team">
           <i className="fa fa-plus"></i>
         </a>

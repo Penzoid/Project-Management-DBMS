@@ -16,7 +16,7 @@ import AddStudent from "./AddStudent";
 import Project from "./project";
 
 const Main = () => {
-  const { fetchUser } = useContext(AuthContext);
+  const { fetchUser, currentUser } = useContext(AuthContext);
   const history = useNavigate();
   const location = useLocation();
 
@@ -30,7 +30,7 @@ const Main = () => {
   }, []);
 
   return (
-    <>
+    currentUser && <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top ">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
@@ -82,6 +82,7 @@ const Main = () => {
               )}
             </ul>
           </div>
+          <div className="fw-bold fs-5 m-2" style={{ color: "white" }}>Hello, {currentUser.username}</div>
         </div>
       </nav>
 
