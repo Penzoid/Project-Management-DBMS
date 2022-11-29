@@ -104,7 +104,9 @@ const ProjectState = (props) => {
       response.status,
       json.error,
       "Submitted successfully",
-      () => {}
+      () => {
+        window.location.reload();
+      }
     );
   };
 
@@ -130,6 +132,7 @@ const ProjectState = (props) => {
     const json = await response.json();
     checkRequest(response.status, json.error, "Graded successfully", () => {
       setCurrentProject(json);
+      window.location.reload();
     });
   };
 

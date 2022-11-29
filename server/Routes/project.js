@@ -78,9 +78,9 @@ router.get("/all/:teamId", fetchuser, async (req, res) => {
 router.post(
   "/",
   [
-    body("name", "Name must be 4 to 15 characters long").isLength({
+    body("name", "Name must be 4 to 40 characters long").isLength({
       min: 4,
-      max: 15,
+      max: 40,
     }),
     body("teamId", "Team ID is invalid").isUUID(),
   ],
@@ -164,7 +164,7 @@ router.post(
             // console.log(query, submissionLink, err);
             return res.status(501).json({ error: err.sqlMessage });
           }
-          return res.send("Submitted successfully");
+          return res.json("Submitted successfully");
         });
       }
     );

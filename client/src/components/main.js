@@ -30,7 +30,7 @@ const Main = () => {
   }, []);
 
   return (
-    currentUser && <>
+    <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top ">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
@@ -81,8 +81,8 @@ const Main = () => {
                 </li>
               )}
             </ul>
+            {currentUser && <div className="fw-bold fs-5 m-2" style={{ color: "white" }}>Hello, {currentUser.username}</div>}
           </div>
-          <div className="fw-bold fs-5 m-2" style={{ color: "white" }}>Hello, {currentUser.username}</div>
         </div>
       </nav>
 

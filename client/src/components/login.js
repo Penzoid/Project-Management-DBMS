@@ -64,18 +64,6 @@ export default function Login() {
               placeholder="Enter Password"
             />
           </div>
-          <div className="mb-3">
-            <div className="form-check">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                id="dropdownCheck"
-              />
-              <label className="form-check-label" htmlFor="dropdownCheck">
-                Remember me
-              </label>
-            </div>
-          </div>
           <div className="d-flex justify-content-evenly">
             <button type="submit" className="btn btn-primary">
               Sign in

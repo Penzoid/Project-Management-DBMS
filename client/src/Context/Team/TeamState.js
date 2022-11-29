@@ -51,7 +51,6 @@ const TeamState = (props) => {
         history("/login");
       });
     }
-    console.log(token);
     const response = await fetch(HOST + "/", {
       method: "POST",
       headers: {
@@ -68,6 +67,7 @@ const TeamState = (props) => {
       "Team created successfully",
       async () => {
         setCurrentTeam(json);
+        history("/team");
       }
     );
   };
@@ -93,7 +93,9 @@ const TeamState = (props) => {
       response.status,
       json.error,
       "Student added successfully",
-      () => {}
+      () => {
+        history("/teams/" + teamId);
+      }
     );
   };
 

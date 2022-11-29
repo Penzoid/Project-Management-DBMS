@@ -36,7 +36,7 @@ BEGIN
         select count(*) into count_t from STUDENT_IN_TEAM where team_id=team;
         IF (count_t < 2) 
             THEN 
-            signal sqlstate 'ERROR' set message_text = 'team should have atleast 3 members before submitting';
+            signal sqlstate 'ERROR' set message_text = 'team should have atleast 2 members before submitting';
         END IF;
     END IF;
 END;//

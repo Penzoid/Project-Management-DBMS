@@ -12,10 +12,6 @@ app.use("/team", require("./Routes/team"));
 app.use("/project", require("./Routes/project"));
 app.use("/grade", require("./Routes/grade"));
 
-// app.get("/", (req, res) => {
-//   res.send("Hello from Express!");
-// });
-
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

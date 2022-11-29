@@ -208,19 +208,6 @@ export default function SignUp() {
               onChange={handleChange}
             ></input>
           )}
-
-          <div className="col-12">
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                id="gridCheck"
-              />
-              <label className="form-check-label" htmlFor="gridCheck">
-                Check me out
-              </label>
-            </div>
-          </div>
           <div className="d-flex justify-content-evenly">
             <button type="submit" className="btn btn-primary">
               Create Account

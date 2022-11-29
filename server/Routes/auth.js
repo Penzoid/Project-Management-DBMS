@@ -132,7 +132,7 @@ router.post("/fetch", fetchUser, async (req, res) => {
     const { username, type } = req.user;
     return res.json({ username, type });
   } catch (error) {
-    return res.status(500).send({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

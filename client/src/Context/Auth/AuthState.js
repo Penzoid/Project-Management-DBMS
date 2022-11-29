@@ -27,6 +27,7 @@ const AuthState = (props) => {
       async () => {
         localStorage.setItem("token", JSON.stringify(json.authToken));
         history("/");
+        fetchUser();
       }
     );
   };
@@ -71,6 +72,7 @@ const AuthState = (props) => {
         async () => {
           localStorage.setItem("token", JSON.stringify(json.authToken));
           history("/");
+          fetchUser();
         }
       );
     } else {

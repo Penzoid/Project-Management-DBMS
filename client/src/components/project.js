@@ -35,6 +35,9 @@ export default function Project() {
         <span style={{ fontSize: "20px" }}>{currentProject.description}</span>
         <br></br>
         <b>status:</b>{" "}
+        <br></br>
+        <b>submission link:</b>{" "}<a href={currentProject.sub_link} target="_blank">{currentProject.sub_link}</a>
+        <br></br>
         <span style={{ fontSize: "18px" }}>{currentProject.status}</span>
         <br />
         {currentProject.status === "SUBMITTED" ? (
