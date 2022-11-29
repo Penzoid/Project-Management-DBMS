@@ -90,9 +90,6 @@ export default function Login() {
           <a className="dropdown-item" href="/create_account">
             New around here? Sign up
           </a>
-          <a className="dropdown-item" href="/forgot_password">
-            Forgot password?
-          </a>
         </center>
       </div>
     </div>

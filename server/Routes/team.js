@@ -115,7 +115,7 @@ router.post(
 
         con.query(query, (err, result) => {
           if (err) return res.status(501).json({ error: err.sqlMessage });
-          return res.send("Success");
+          return res.json("Success");
         });
       }
     );

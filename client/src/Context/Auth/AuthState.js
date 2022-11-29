@@ -80,10 +80,10 @@ const AuthState = (props) => {
 
   const fetchUser = () => {
     const token = JSON.parse(localStorage.getItem("token"));
-    if (token || window.URL.href === "http://localhost:3000/create_account") {
+    if (token) {
       return true;
     } else {
-      // history("/login");
+      history("/login");
     }
   };
 

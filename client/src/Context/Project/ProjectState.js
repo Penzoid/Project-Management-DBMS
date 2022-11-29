@@ -96,7 +96,7 @@ const ProjectState = (props) => {
         "auth-token": token,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ submissionLink: JSON.stringify(link) }),
+      body: JSON.stringify({ submissionLink: link }),
     });
     const json = await response.json();
     checkRequest(
@@ -127,7 +127,7 @@ const ProjectState = (props) => {
       }
     );
     const json = await response.json();
-    checkRequest(response.status, json.error, "Submitted successfully", () => {
+    checkRequest(response.status, json.error, "Graded successfully", () => {
       setCurrentProject(json);
     });
   };

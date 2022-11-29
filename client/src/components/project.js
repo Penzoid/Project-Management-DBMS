@@ -32,35 +32,52 @@ export default function Project() {
         <b>status:</b>{" "}
         <span style={{ fontSize: "18px" }}>{currentProject.status}</span>
         <br />
-        <form className="row g-3" onSubmit={handleSubmit}>
-          <div className="col-md-6">
-            <label htmlFor="link" className="form-label">
-              submission Link
-            </label>
-            <div className="input-group has-validation">
-              <span className="input-group-text">
-                <i className="fa fa-link"></i>
-              </span>
-              <input
-                value={data.link}
-                onChange={handleChange}
-                type="url"
-                className="form-control"
-                id="link"
-                placeholder="Enter Submission URL"
-                required
-              />
-              <span>
-                <button
-                  className="btn btn-success"
-                  style={{ marginLeft: "10px" }}
-                >
-                  Submit
-                </button>
-              </span>
-            </div>
+        {currentProject.status === "SUBMITTED" ? (
+          <div>
+            <div style={{ color: "green" }}>Project Submitted</div>{" "}
+            <span> Waiting for grades</span>
           </div>
-        </form>
+        ) : currentProject.status === "GRADED" ? (
+          <div style={{ border: "1px solid green", borderRadius: "5px" }}>
+            <div className="h3">Project Graded</div>
+            <b>Graded By:</b>{" "}
+            <span className="h5">{currentProject.graded_by}</span>
+            <b>Grades:</b>
+            <span className="h6">{currentProject.grade}</span>
+            <b>Remarks:</b>
+            <span>{currentProject.remark}</span>
+          </div>
+        ) : (
+          <form className="row g-3" onSubmit={handleSubmit}>
+            <div className="col-md-6">
+              <label htmlFor="link" className="form-label">
+                submission Link
+              </label>
+              <div className="input-group has-validation">
+                <span className="input-group-text">
+                  <i className="fa fa-link"></i>
+                </span>
+                <input
+                  value={data.link}
+                  onChange={handleChange}
+                  type="url"
+                  className="form-control"
+                  id="link"
+                  placeholder="Enter Submission URL"
+                  required
+                />
+                <span>
+                  <button
+                    className="btn btn-success"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    Submit
+                  </button>
+                </span>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
     )
   );

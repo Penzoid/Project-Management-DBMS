@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Home from "./home";
 import Login from "./login";
 import logo from "../images/class.png";
@@ -13,11 +14,19 @@ import Team from "./team";
 import CreateProject from "./create_project";
 import AddStudent from "./AddStudent";
 import Project from "./project";
+import ProjectGrade from "./projectGrade";
 
 const Main = () => {
   const { fetchUser } = useContext(AuthContext);
+  const history = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
+    if (
+      location.pathname === "/login" ||
+      location.pathname === "/create_account"
+    )
+      return;
     fetchUser();
   }, []);
 
@@ -51,11 +60,27 @@ const Main = () => {
                   Teams
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/login">
-                  Login
-                </a>
-              </li>
+              {JSON.parse(localStorage.getItem("token")) ? (
+                <li className="nav-item">
+                  <button
+                    className="nav-link"
+                    style={{ border: "none", background: "none" }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      localStorage.clear();
+                      history("/login");
+                    }}
+                  >
+                    Logout
+                  </button>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <a className="nav-link" href="/login">
+                    Login
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </div>
@@ -71,6 +96,10 @@ const Main = () => {
         <Route path="forgot_password" element={<ForgotPass />}></Route>
         <Route path="create_team" element={<NewTeam />}></Route>
         <Route path="teams/:team_id" element={<Team />}></Route>
+        <Route
+          path="teams/:team_id/:project_id/grade"
+          element={<ProjectGrade />}
+        ></Route>
         <Route
           path="teams/:team_id/create_project"
           element={<CreateProject />}

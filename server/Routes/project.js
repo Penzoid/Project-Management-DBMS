@@ -36,7 +36,10 @@ router.get("/:id", fetchuser, async (req, res) => {
             return res.json(result[0]);
           }
         );
-      } else return res.json(result[0]);
+      } else {
+        console.log(result[0] + type);
+        return res.json(result[0]);
+      }
     });
   });
 });
@@ -47,7 +50,7 @@ router.get("/all/:teamId", fetchuser, async (req, res) => {
 
   if (type === "T") {
     con.query(
-      `SELECT * FROM PROJECT WHERE team_id='${teamId}' status='SUBMITTED'`,
+      `SELECT * FROM PROJECT WHERE team_id='${teamId}' and  status='SUBMITTED'`,
       (err, result) => {
         if (err) return res.status(501).json({ error: err.sqlMessage });
         return res.json(result);
@@ -133,8 +136,6 @@ router.post(
 
     const { id } = req.params;
     const { submissionLink } = req.body;
-    console.log(id + submissionLink);
-
     con.query(
       `SELECT * FROM PROJECT WHERE project_id='${id}' AND status='CREATED'`,
       (err, result) => {
@@ -158,7 +159,10 @@ router.post(
         const query = `UPDATE PROJECT SET sub_link='${submissionLink}',status='SUBMITTED' WHERE project_id='${id}'`;
 
         con.query(query, (err, result) => {
-          if (err) return res.status(501).json({ error: err.sqlMessage });
+          if (err) {
+            console.log(query, submissionLink, err);
+            return res.status(501).json({ error: err.sqlMessage });
+          }
           return res.send("Submitted successfully");
         });
       }

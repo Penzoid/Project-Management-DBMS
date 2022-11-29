@@ -80,7 +80,7 @@ const TeamState = (props) => {
         history("/login");
       });
     }
-    const response = await fetch(HOST + "/", {
+    const response = await fetch(HOST + "/addStudent", {
       method: "POST",
       headers: {
         "auth-token": token,

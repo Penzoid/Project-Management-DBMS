@@ -29,11 +29,11 @@ BEFORE UPDATE
     ON PROJECT
     FOR EACH ROW
 BEGIN
-    DECLARE team varchar(12);  
+    DECLARE team varchar(50);  
     DECLARE count_t int DEFAULT 0;
     IF (NEW.`status` ="SUBMITTED") THEN 
-        select t.team_id into team from TEAM t inner join PROJECT p on (p.project_id=t.project_id) where  project_id=OLD.project_id;
-        select team_id,count(*) into count_t from STUDENT_IN_TEAM where team_id=team;
+        select t.team_id into team from TEAM t inner join PROJECT p on (p.team_id=t.team_id) where  p.project_id=OLD.project_id;
+        select count(*) into count_t from STUDENT_IN_TEAM where team_id=team;
         IF (count_t < 2) 
             THEN 
             signal sqlstate 'ERROR' set message_text = 'team should have atleast 3 members before submitting';
