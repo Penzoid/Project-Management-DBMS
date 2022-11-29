@@ -98,6 +98,60 @@ const TeamState = (props) => {
     );
   };
 
+  // Delete Team
+  const deleteTeam = async ({ teamId }) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (token) {
+      const response = await fetch(HOST + "/" + teamId, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token
+        }
+      });
+      const json = await response.json();
+      checkRequest(
+        response.status,
+        json.error,
+        "Deleted successfully",
+        async () => {
+          getAllTeams();
+          setCurrentTeam(null);
+          history("/team");
+        }
+      );
+    } else {
+      history("/login");
+    }
+  };
+
+  // Leave Team
+  const leaveTeam = async ({ teamId }) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (token) {
+      const response = await fetch(HOST + "/user/" + teamId, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token
+        }
+      });
+      const json = await response.json();
+      checkRequest(
+        response.status,
+        json.error,
+        "Left successfully",
+        async () => {
+          getAllTeams();
+          setCurrentTeam(null);
+          history("/team");
+        }
+      );
+    } else {
+      history("/login");
+    }
+  };
+
   return (
     <TeamContext.Provider
       value={{
@@ -105,6 +159,8 @@ const TeamState = (props) => {
         getAllTeams,
         createTeam,
         addStudent,
+        deleteTeam,
+        leaveTeam,
         currentTeam,
         teams,
       }}

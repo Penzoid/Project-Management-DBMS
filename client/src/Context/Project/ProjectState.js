@@ -154,6 +154,33 @@ const ProjectState = (props) => {
     });
   };
 
+  // Delete Project
+  const deleteProject = async ({ projectId }) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (token) {
+      const response = await fetch(HOST + "/" + projectId, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token
+        }
+      });
+      const json = await response.json();
+      checkRequest(
+        response.status,
+        json.error,
+        "Deleted successfully",
+        async () => {
+          setCurrentProject(null);
+          setProjects([]);
+          history("/team");
+        }
+      );
+    } else {
+      history("/login");
+    }
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -163,6 +190,7 @@ const ProjectState = (props) => {
         submitProject,
         gradeProject,
         fetchGrades,
+        deleteProject,
         currentProject,
         projects,
         projectGrades,

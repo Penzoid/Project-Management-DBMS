@@ -32,7 +32,7 @@ const AuthState = (props) => {
     );
   };
 
-  // register
+  // Register
   const registerUser = async ({
     fname,
     lname,
@@ -100,13 +100,42 @@ const AuthState = (props) => {
           setCurrentUser(json);
         }
       );
+    }
+  };
+
+  // Delete User
+  const deleteUser = async ({ password }) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (token) {
+      const response = await fetch(HOST + "/", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token
+        },
+        body: JSON.stringify({ password }),
+      });
+      const json = await response.json();
+      checkRequest(
+        response.status,
+        json.error,
+        "Deleted successfully",
+        async () => {
+          localStorage.removeItem("token");
+          setCurrentUser(null);
+          history("/");
+        }
+      );
     } else {
       history("/login");
     }
   };
 
   return (
-    <AuthContext.Provider value={{ loginUser, registerUser, fetchUser, currentUser }}>
+    <AuthContext.Provider value={{
+      loginUser, registerUser, fetchUser, deleteUser,
+      currentUser
+    }}>
       {props.children}
     </AuthContext.Provider>
   );

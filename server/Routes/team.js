@@ -122,6 +122,7 @@ router.post(
   }
 );
 
+// Delete Team
 router.delete("/:id", fetchuser, async (req, res) => {
   const { id } = req.params;
   const { username, type } = req.user;
@@ -141,6 +142,7 @@ router.delete("/:id", fetchuser, async (req, res) => {
   );
 });
 
+// Remove User
 router.delete("/user/:id", fetchuser, async (req, res) => {
   const { id } = req.params;
   const { username, type } = req.user;

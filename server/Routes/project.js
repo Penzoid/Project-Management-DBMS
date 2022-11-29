@@ -170,6 +170,7 @@ router.post(
   }
 );
 
+// Delete Project
 router.delete("/:id", fetchuser, async (req, res) => {
   const { id } = req.params;
   const { username, type } = req.user;

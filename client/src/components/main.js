@@ -22,14 +22,14 @@ const Main = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log(location.pathname);
+    fetchUser();
     if (
       location.pathname === "/" ||
       location.pathname === "/login" ||
       location.pathname === "/create_account"
     )
       return;
-    fetchUser();
+    if (!JSON.parse(localStorage.getItem("token"))) history("/login");
   }, []);
 
   return (
@@ -54,9 +54,8 @@ const Main = () => {
             <ul className="item-list navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${
-                    location.pathname === "/grades" ? "active" : ""
-                  }`}
+                  className={`nav-link ${location.pathname === "/grades" ? "active" : ""
+                    }`}
                   to="/grades"
                 >
                   Grades
@@ -64,9 +63,8 @@ const Main = () => {
               </li>
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${
-                    location.pathname === "/team" ? "active" : ""
-                  }`}
+                  className={`nav-link ${location.pathname === "/team" ? "active" : ""
+                    }`}
                   to="/team"
                 >
                   Teams
@@ -89,12 +87,11 @@ const Main = () => {
               ) : (
                 <li className="nav-item">
                   <Link
-                    className={`nav-link ${
-                      location.pathname === "/login" ||
+                    className={`nav-link ${location.pathname === "/login" ||
                       location.pathname === "/create_account"
-                        ? "active"
-                        : ""
-                    }`}
+                      ? "active"
+                      : ""
+                      }`}
                     to="/login"
                   >
                     Login
