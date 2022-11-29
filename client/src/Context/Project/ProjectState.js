@@ -134,6 +134,11 @@ const ProjectState = (props) => {
 
   // Fetch Grades
   const fetchGrades = async () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (!token) {
+      history("/login");
+      return;
+    }
     const response = await fetch(
       (process.env.BACKEND_URL || "http://localhost:5000") + "/grade",
       {

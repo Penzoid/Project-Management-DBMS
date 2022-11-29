@@ -22,9 +22,9 @@ const Main = () => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log(location.pathname);
     if (
       location.pathname === "/" ||
-      location.pathname === "/grades" ||
       location.pathname === "/login" ||
       location.pathname === "/create_account"
     )
@@ -53,34 +53,60 @@ const Main = () => {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="item-list navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className={`nav-link ${location.pathname === "/grades" ? "active" : ""}`} to="/grades">
+                <Link
+                  className={`nav-link ${
+                    location.pathname === "/grades" ? "active" : ""
+                  }`}
+                  to="/grades"
+                >
                   Grades
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${location.pathname === "/team" ? "active" : ""}`} to="/team">
+                <Link
+                  className={`nav-link ${
+                    location.pathname === "/team" ? "active" : ""
+                  }`}
+                  to="/team"
+                >
                   Teams
                 </Link>
               </li>
               {JSON.parse(localStorage.getItem("token")) ? (
                 <li className="nav-item">
-                  <Link className="nav-link" to="/login" onClick={(e) => {
-                    e.preventDefault();
-                    localStorage.removeItem("token");
-                    history("/login");
-                  }}>
+                  <Link
+                    className="nav-link"
+                    to="/login"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      localStorage.removeItem("token");
+                      history("/login");
+                    }}
+                  >
                     Logout
                   </Link>
                 </li>
               ) : (
                 <li className="nav-item">
-                  <Link className={`nav-link ${location.pathname === "/login" || location.pathname === "/create_account" ? "active" : ""}`} to="/login">
+                  <Link
+                    className={`nav-link ${
+                      location.pathname === "/login" ||
+                      location.pathname === "/create_account"
+                        ? "active"
+                        : ""
+                    }`}
+                    to="/login"
+                  >
                     Login
                   </Link>
                 </li>
               )}
             </ul>
-            {currentUser && <div className="fw-bold fs-5 m-2" style={{ color: "white" }}>Hello, {currentUser.username}</div>}
+            {currentUser && (
+              <div className="fw-bold fs-5 m-2" style={{ color: "white" }}>
+                Hello, {currentUser.username}
+              </div>
+            )}
           </div>
         </div>
       </nav>
@@ -89,7 +115,7 @@ const Main = () => {
 
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/grades" element={<Grades />}></Route>
+        <Route path="grades" element={<Grades />}></Route>
         <Route path="login" element={<Login />}></Route>
         <Route path="team" element={<Teams />}></Route>
         <Route path="create_account" element={<SignUp />}></Route>

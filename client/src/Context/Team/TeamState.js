@@ -27,9 +27,8 @@ const TeamState = (props) => {
   const getAllTeams = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (!token) {
-      checkRequest(401, null, null, () => {
-        history("/login");
-      });
+      history("/login");
+      return;
     }
     const response = await fetch(HOST + "/", {
       method: "GET",
