@@ -40,4 +40,25 @@ BEGIN
         END IF;
     END IF;
 END;//
+
+-- trigger for duplicate project inside a team
+drop TRIGGER duplicate_project;
+
+delimiter //
+CREATE TRIGGER duplicate_project    
+BEFORE INSERT
+    ON PROJECT
+    FOR EACH ROW
+BEGIN
+    DECLARE team varchar(50);  
+    DECLARE count_t int DEFAULT 0;
+    IF (NEW.`status` ="SUBMITTED") THEN 
+        select t.team_id into team from TEAM t inner join PROJECT p on (p.team_id=t.team_id) where  p.project_id=NEW.project_id;
+        select count(*) into count_t from PROJECT where project_name=NEW.project_name;
+        IF (count_t > 0) 
+            THEN 
+            signal sqlstate 'ERROR' set message_text = 'The project for the same team already exists';
+        END IF;
+    END IF;
+END;//
 delimiter ;

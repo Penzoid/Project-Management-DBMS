@@ -37,7 +37,7 @@ export default function Login() {
       <div className="container login-box">
         <center className="h1">Login</center>
         <hr />
-        <form className="px-4 py-3" onSubmit={handleSubmit}>
+        <form className="px-4 py-3" onSubmit={handleSubmit} method="post">
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
               Username :

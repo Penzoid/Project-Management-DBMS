@@ -37,7 +37,7 @@ router.get("/:id", fetchuser, async (req, res) => {
           }
         );
       } else {
-        console.log(result[0] + type);
+        // console.log(result[0] + type);
         return res.json(result[0]);
       }
     });
@@ -160,7 +160,7 @@ router.post(
 
         con.query(query, (err, result) => {
           if (err) {
-            console.log(query, submissionLink, err);
+            // console.log(query, submissionLink, err);
             return res.status(501).json({ error: err.sqlMessage });
           }
           return res.send("Submitted successfully");
