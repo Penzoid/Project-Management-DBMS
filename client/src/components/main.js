@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import Home from "./home";
 import Login from "./login";
@@ -14,6 +14,7 @@ import Team from "./team";
 import CreateProject from "./create_project";
 import AddStudent from "./AddStudent";
 import Project from "./project";
+import Grades from "./grades";
 
 const Main = () => {
   const { fetchUser, currentUser } = useContext(AuthContext);
@@ -22,6 +23,8 @@ const Main = () => {
 
   useEffect(() => {
     if (
+      location.pathname === "/" ||
+      location.pathname === "/grades" ||
       location.pathname === "/login" ||
       location.pathname === "/create_account"
     )
@@ -33,9 +36,9 @@ const Main = () => {
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top ">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             Project-Manager
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -50,34 +53,30 @@ const Main = () => {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="item-list navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">
-                  Home
-                </a>
+                <Link className={`nav-link ${location.pathname === "/grades" ? "active" : ""}`} to="/grades">
+                  Grades
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/team">
+                <Link className={`nav-link ${location.pathname === "/team" ? "active" : ""}`} to="/team">
                   Teams
-                </a>
+                </Link>
               </li>
               {JSON.parse(localStorage.getItem("token")) ? (
                 <li className="nav-item">
-                  <button
-                    className="nav-link"
-                    style={{ border: "none", background: "none" }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      localStorage.clear();
-                      history("/login");
-                    }}
-                  >
+                  <Link className="nav-link" to="/login" onClick={(e) => {
+                    e.preventDefault();
+                    localStorage.removeItem("token");
+                    history("/login");
+                  }}>
                     Logout
-                  </button>
+                  </Link>
                 </li>
               ) : (
                 <li className="nav-item">
-                  <a className="nav-link" href="/login">
+                  <Link className={`nav-link ${location.pathname === "/login" || location.pathname === "/create_account" ? "active" : ""}`} to="/login">
                     Login
-                  </a>
+                  </Link>
                 </li>
               )}
             </ul>
@@ -90,6 +89,7 @@ const Main = () => {
 
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/grades" element={<Grades />}></Route>
         <Route path="login" element={<Login />}></Route>
         <Route path="team" element={<Teams />}></Route>
         <Route path="create_account" element={<SignUp />}></Route>
@@ -141,6 +141,7 @@ const Main = () => {
             <a
               style={{ textDecoration: "None", color: "#234567" }}
               href="https://github.com/orgs/Penzoid/teams/dbms-team"
+              target="_blank"
             >
               Team Penzoid
             </a>

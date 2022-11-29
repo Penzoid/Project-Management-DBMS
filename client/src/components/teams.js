@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./common.css";
 import TeamContext from "../Context/Team/TeamContext";
 import AuthContext from "../Context/Auth/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function Teams() {
   const { getAllTeams, teams } = useContext(TeamContext);
@@ -42,8 +43,8 @@ export default function Teams() {
       <div className="d-flex project-box m-4" style={{ flexFlow: "wrap" }}>
         {teams.map((team, i) => {
           return (
-            <a
-              href={`/teams/${team.team_id}`}
+            <Link
+              to={`/teams/${team.team_id}`}
               className="card"
               style={{ width: "18rem", margin: "20px" }}
               key={i}
@@ -57,14 +58,14 @@ export default function Teams() {
                   <b>Description:</b> {team.team_desc}
                 </p>
               </div>
-            </a>
+            </Link>
           );
         })}
       </div>
       {currentUser.type === "S" && (
-        <a className="add-btn" href="/create_team">
+        <Link className="add-btn" to="/create_team">
           <i className="fa fa-plus"></i>
-        </a>
+        </Link>
       )}
     </div>
   );

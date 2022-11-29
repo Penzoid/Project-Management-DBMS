@@ -6,6 +6,18 @@ const fetchuser = require("../middlewares/fetchuser");
 
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+  con.query("call PTG()", (err, result) => {
+    if (err) return res.status(501).json({ error: err.sqlMessage });
+    let ansList = Array.from(result).slice(0, result.length - 1);
+    let finalList = [];
+    ansList.forEach(el => {
+      finalList.push(el[0]);
+    });
+    return res.json(finalList);
+  })
+});
+
 router.post(
   "/",
   [

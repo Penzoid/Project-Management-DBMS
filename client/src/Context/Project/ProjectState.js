@@ -12,6 +12,7 @@ const ProjectState = (props) => {
 
   const [currentProject, setCurrentProject] = useState(null);
   const [projects, setProjects] = useState([]);
+  const [projectGrades, setProjectGrades] = useState([]);
 
   // Get By ID
   const getById = async ({ id }) => {
@@ -136,6 +137,20 @@ const ProjectState = (props) => {
     });
   };
 
+  // Fetch Grades
+  const fetchGrades = async () => {
+    const response = await fetch(
+      (process.env.BACKEND_URL || "http://localhost:5000") + "/grade",
+      {
+        method: "GET",
+      }
+    );
+    const json = await response.json();
+    checkRequest(response.status, json.error, null, () => {
+      setProjectGrades(json);
+    });
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -144,8 +159,10 @@ const ProjectState = (props) => {
         createProject,
         submitProject,
         gradeProject,
+        fetchGrades,
         currentProject,
         projects,
+        projectGrades
       }}
     >
       {props.children}

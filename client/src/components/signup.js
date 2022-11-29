@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./common.css";
 import AuthContext from "../Context/Auth/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
   const [data, setData] = useState({
@@ -218,9 +219,9 @@ export default function SignUp() {
           </div>
           <hr />
           <center className="d-flex justify-content-around">
-            <a className="dropdown-item" href="/login">
+            <Link className="dropdown-item" to="/login">
               Already have an account? Login
-            </a>
+            </Link>
           </center>
         </form>
       </div>

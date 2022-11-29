@@ -12,7 +12,9 @@ export default function Project() {
 
   useEffect(() => {
     fetchUser();
-    getById({ id: project_id });
+    if (project_id) {
+      getById({ id: project_id });
+    }
   }, [project_id]);
 
   const [data, setData] = useState({ link: "", id: project_id });

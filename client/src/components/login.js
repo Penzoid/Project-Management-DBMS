@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import AuthContext from "../Context/Auth/AuthContext";
 import "./common.css";
 
@@ -75,9 +76,9 @@ export default function Login() {
         </form>
         <hr />
         <center className="d-flex justify-content-around">
-          <a className="dropdown-item" href="/create_account">
+          <Link className="dropdown-item" to="/create_account">
             New around here? Sign up
-          </a>
+          </Link>
         </center>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import ProjectContext from "../Context/Project/ProjectContext";
 import AuthContext from "../Context/Auth/AuthContext";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./common.css";
 
 export default function Team() {
@@ -44,12 +44,12 @@ export default function Team() {
         <center className="h1">Your Projects</center>
         {currentUser.type === "S" && (
           <div className="d-flex align-items-center tool-box">
-            <a href={`${team_id}/create_project`} className="btn btn-success">
+            <Link to={`${team_id}/create_project`} className="btn btn-success">
               Add New Project
-            </a>
-            <a href={`${team_id}/add_student`} className="btn btn-success">
+            </Link>
+            <Link to={`${team_id}/add_student`} className="btn btn-success">
               Add Student
-            </a>
+            </Link>
           </div>
         )}
         <hr style={{ color: "red" }} />
@@ -61,8 +61,8 @@ export default function Team() {
         ) : null}
         {projects.map((project, i) => {
           return (
-            <a
-              href={`${team_id}/${project.project_id}`}
+            <Link
+              to={`/teams/${team_id}/${project.project_id}`}
               className="card"
               style={{ width: "18rem", margin: "20px" }}
               key={i}
@@ -76,7 +76,7 @@ export default function Team() {
                   <b>Description:</b> {project.description}
                 </p>
               </div>
-            </a>
+            </Link>
           );
         })}
       </div>
