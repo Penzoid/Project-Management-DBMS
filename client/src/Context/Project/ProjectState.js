@@ -101,14 +101,9 @@ const ProjectState = (props) => {
       body: JSON.stringify({ submissionLink: link }),
     });
     const json = await response.json();
-    checkRequest(
-      response.status,
-      json.error,
-      "Submitted successfully",
-      () => {
-        window.location.reload();
-      }
-    );
+    checkRequest(response.status, json.error, "Submitted successfully", () => {
+      window.location.reload();
+    });
   };
 
   // Grade Project
@@ -162,7 +157,7 @@ const ProjectState = (props) => {
         fetchGrades,
         currentProject,
         projects,
-        projectGrades
+        projectGrades,
       }}
     >
       {props.children}

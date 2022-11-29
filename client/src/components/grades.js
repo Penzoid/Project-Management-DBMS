@@ -11,7 +11,7 @@ export default function Grades() {
   return (
     projectGrades && (
       <>
-        <table class="table">
+        <table className="table">
           <thead>
             <tr>
               <th scope="col">S.no</th>
