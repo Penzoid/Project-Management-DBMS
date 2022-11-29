@@ -29,3 +29,23 @@
     width: 100vw !important;
     height: 94vh !important;
 }
+
+.card-style{
+    background-color: #9cda4cc4;
+    min-height: 200px;
+}
+.card-style div{
+    text-align: center;
+}
+.tool-box{
+    width: 100%;
+    padding: 25px;
+}
+.tool-box *{
+    margin-right: 15px;
+}
+.cropped1 {
+    height: 500px; 
+    object-fit: cover;
+    object-position: 20% 20%; 
+    }

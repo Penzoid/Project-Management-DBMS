@@ -18,60 +18,50 @@ const TeamState = (props) => {
       method: "GET",
     });
     const json = await response.json();
-    checkRequest(
-      response.status,
-      json.error,
-      null,
-      () => { setCurrentTeam(json); }
-    );
-  }
+    checkRequest(response.status, json.error, null, () => {
+      setCurrentTeam(json);
+    });
+  };
 
   // Get All Teams
-  const getAllTeams = async ({ id }) => {
+  const getAllTeams = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (!token) {
-      checkRequest(
-        401,
-        null,
-        null,
-        () => { history("/login") }
-      );
+      checkRequest(401, null, null, () => {
+        history("/login");
+      });
     }
-    const response = await fetch(HOST + "/" + id, {
+    const response = await fetch(HOST + "/", {
       method: "GET",
       headers: {
-        "auth-token": JSON.stringify(token),
+        "auth-token": token,
       },
     });
     const json = await response.json();
-    checkRequest(
-      response.status,
-      json.error,
-      null,
-      () => { setTeams(json); }
-    );
-  }
+    checkRequest(response.status, json.error, null, () => {
+      setTeams(json);
+    });
+  };
 
   // Create Team
   const createTeam = async ({ name, description }) => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (!token) {
-      checkRequest(
-        401,
-        null,
-        null,
-        () => { history("/login") }
-      );
+      checkRequest(401, null, null, () => {
+        history("/login");
+      });
     }
+    console.log(token);
     const response = await fetch(HOST + "/", {
       method: "POST",
       headers: {
-        "auth-token": JSON.stringify(token),
+        "auth-token": token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name, description }),
     });
     const json = await response.json();
+
     checkRequest(
       response.status,
       json.error,
@@ -86,17 +76,14 @@ const TeamState = (props) => {
   const addStudent = async ({ teamId, username }) => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (!token) {
-      checkRequest(
-        401,
-        null,
-        null,
-        () => { history("/login") }
-      );
+      checkRequest(401, null, null, () => {
+        history("/login");
+      });
     }
     const response = await fetch(HOST + "/", {
       method: "POST",
       headers: {
-        "auth-token": JSON.stringify(token),
+        "auth-token": token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ teamId, username }),
@@ -106,15 +93,21 @@ const TeamState = (props) => {
       response.status,
       json.error,
       "Student added successfully",
-      () => { }
+      () => {}
     );
   };
 
   return (
-    <TeamContext.Provider value={{
-      getById, getAllTeams, createTeam, addStudent,
-      currentTeam, teams
-    }}>
+    <TeamContext.Provider
+      value={{
+        getById,
+        getAllTeams,
+        createTeam,
+        addStudent,
+        currentTeam,
+        teams,
+      }}
+    >
       {props.children}
     </TeamContext.Provider>
   );

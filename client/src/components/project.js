@@ -1,82 +1,67 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
-import "./common.css";
+import React, { useContext, useEffect, useState } from "react";
+import ProjectContext from "../Context/Project/ProjectContext";
+import { useParams } from "react-router-dom";
 
-export default function Home() {
-  const [projects, setProject] = useState([]);
+export default function Project() {
+  let { project_id } = useParams();
+  const { getById, currentProject, submitProject } = useContext(ProjectContext);
+
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then((response) => setProject(response.data));
-  }, []);
-  const runCallback = () => {
-    const row = [];
-    projects.forEach((project) => {
-      row.push(
-        <a href="/" className="card" style={{ width: "18rem", margin: "20px" }}>
-          <img src="..." className="card-img-top" alt="..." />
-          <div className="card-body">
-            <h3>Id: {project.id}</h3>
-            <h5 className="card-title">UserId: {project.userId}</h5>
-            <p className="card-text">Title: {project.title}</p>
-            <a href="/" className="btn btn-primary">
-              {project.completed}
-            </a>
-          </div>
-        </a>
-      );
-    });
-    return row;
-  };
-  return (
-    <div
-      style={{
-        margin: "20px",
-        marginTop: "50px",
-        borderRadius: "5px",
-        padding: "5px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div
-        className="d-flex justify-content-evenly align-items-center"
-        style={{
-          position: "fixed",
-          width: "100vw",
-          height: "90px",
-          top: "50px",
-          zIndex: 80,
-          background: "white",
-        }}
-      >
-        <h1>Your Teams</h1>
-      </div>
-      <form
-        className="d-flex"
-        role="search"
-        style={{ position: "fixed", zIndex: 80, top: "80px", right: "50px" }}
-      >
-        <input
-          className="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button className="btn btn-outline-success" type="submit">
-          Search
-        </button>
-      </form>
+    getById({ id: project_id });
+  }, [project_id]);
 
-      <div className="d-flex project-box m-4" style={{ flexFlow: "wrap" }}>
-        {runCallback()}
+  const [data, setData] = useState({ link: "", id: project_id });
+  const handleChange = () => {
+    setData({
+      link: document.getElementById("link").value,
+      id: project_id,
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    submitProject(data);
+  };
+
+  return (
+    currentProject && (
+      <div className="container">
+        <h1>{currentProject.project_name}</h1>
+        <b>description:</b>{" "}
+        <span style={{ fontSize: "20px" }}>{currentProject.description}</span>
+        <br></br>
+        <b>status:</b>{" "}
+        <span style={{ fontSize: "18px" }}>{currentProject.status}</span>
+        <br />
+        <form className="row g-3" onSubmit={handleSubmit}>
+          <div className="col-md-6">
+            <label htmlFor="link" className="form-label">
+              submission Link
+            </label>
+            <div className="input-group has-validation">
+              <span className="input-group-text">
+                <i className="fa fa-link"></i>
+              </span>
+              <input
+                value={data.link}
+                onChange={handleChange}
+                type="url"
+                className="form-control"
+                id="link"
+                placeholder="Enter Submission URL"
+                required
+              />
+              <span>
+                <button
+                  className="btn btn-success"
+                  style={{ marginLeft: "10px" }}
+                >
+                  Submit
+                </button>
+              </span>
+            </div>
+          </div>
+        </form>
       </div>
-      <a className="add-btn" href="/create_team">
-        <i className="fa fa-plus"></i>
-      </a>
-    </div>
+    )
   );
 }

@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./common.css";
+import TeamContext from "../Context/Team/TeamContext";
 
 export default function NewTeam() {
+  const { createTeam } = useContext(TeamContext);
+
+  const [data, setData] = useState({
+    name: "",
+    description: "",
+  });
+
+  const handleChange = (e) => {
+    setData({
+      name: document.getElementById("name").value,
+      description: document.getElementById("description").value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await createTeam(data);
+  };
+
   return (
     <div
       style={{
@@ -18,26 +38,28 @@ export default function NewTeam() {
       <div className="container login-box">
         <center className="h1">Create Team</center>
         <hr />
-        <form class="row g-3">
-          <div class="col-md-6">
-            <label for="inputEmail4" class="form-label">
+        <form className="row g-3" method="post" onSubmit={handleSubmit}>
+          <div className="col-md-12">
+            <label htmlFor="name" className="form-label">
               TeamName
             </label>
-            <input type="text" class="form-control" id="inputEmail4" />
+            <input
+              value={data.name}
+              onChange={handleChange}
+              type="text"
+              className="form-control"
+              id="name"
+            />
           </div>
-          <div class="col-md-6">
-            <label for="tname" class="form-label">
-              Team Project Name
-            </label>
-            <input type="text" class="form-control" id="tname" />
-          </div>
-          <div class="col-md-12">
-            <label for="desc" class="form-label">
-              Project Description
+          <div className="col-md-12">
+            <label htmlFor="description" className="form-label">
+              Team description
             </label>
             <textarea
+              value={data.description}
+              onChange={handleChange}
               name="message"
-              id="desc"
+              id="description"
               type={"text"}
               placeholder="Enter the message"
               className={`form-control`}
@@ -45,8 +67,8 @@ export default function NewTeam() {
             />
           </div>
 
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary">
+          <div className="col-12">
+            <button type="submit" className="btn btn-primary">
               Create Team
             </button>
           </div>

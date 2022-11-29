@@ -31,6 +31,7 @@ const AuthState = (props) => {
     );
   };
 
+  // register
   const registerUser = async ({
     fname,
     lname,
@@ -73,19 +74,18 @@ const AuthState = (props) => {
         }
       );
     } else {
-      checkRequest(404, "Passwords do not match", "", () => { });
+      checkRequest(404, "Passwords do not match", "", () => {});
     }
   };
 
   const fetchUser = () => {
     const token = JSON.parse(localStorage.getItem("token"));
-    if (token) {
+    if (token || window.URL.href === "http://localhost:3000/create_account") {
       return true;
+    } else {
+      // history("/login");
     }
-    else {
-      history("/login");
-    }
-  }
+  };
 
   return (
     <AuthContext.Provider value={{ loginUser, registerUser, fetchUser }}>

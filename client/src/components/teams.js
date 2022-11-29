@@ -1,0 +1,83 @@
+import React, { useContext, useEffect } from "react";
+import "./common.css";
+import TeamContext from "../Context/Team/TeamContext";
+
+export default function Teams() {
+  const { getAllTeams, teams } = useContext(TeamContext);
+
+  useEffect(() => {
+    getAllTeams();
+  }, []);
+
+  return (
+    <div
+      style={{
+        margin: "20px",
+        marginTop: "50px",
+        borderRadius: "5px",
+        padding: "5px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        className="d-flex justify-content-evenly align-items-center"
+        style={{
+          position: "fixed",
+          width: "100vw",
+          height: "90px",
+          top: "50px",
+          zIndex: 80,
+          background: "white",
+        }}
+      >
+        <h1>Your Teams</h1>
+      </div>
+      <form
+        className="d-flex"
+        role="search"
+        style={{ position: "fixed", zIndex: 80, top: "80px", right: "50px" }}
+      >
+        <input
+          className="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button className="btn btn-outline-success" type="submit">
+          Search
+        </button>
+      </form>
+
+      <div className="d-flex project-box m-4" style={{ flexFlow: "wrap" }}>
+        {teams.map((team, i) => {
+          return (
+            <>
+              <a
+                href={`/teams/${team.team_id}`}
+                className="card"
+                style={{ width: "18rem", margin: "20px" }}
+                key={i}
+              >
+                <div className="card-body card-style">
+                  <div className="card-title">
+                    <div className="h4">{team.team_name}</div>
+                  </div>
+                  <hr />
+                  <p className="card-text">
+                    <b>Description:</b> {team.team_desc}
+                  </p>
+                </div>
+              </a>
+            </>
+          );
+        })}
+      </div>
+      <a className="add-btn" href="/create_team">
+        <i className="fa fa-plus"></i>
+      </a>
+    </div>
+  );
+}
