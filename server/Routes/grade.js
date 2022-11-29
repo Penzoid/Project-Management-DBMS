@@ -37,7 +37,7 @@ router.post(
           return res.status(400).json({ error: "Project not found" });
 
         let query = `INSERT INTO GRADE VALUES('${projectId}','${grade}','${remark}','${username}');`;
-        query += `UPDATE PROJECT SET status='GRADED',gradedBy='${username}' WHERE project_id='${projectId}'`;
+        query += `UPDATE PROJECT SET status='GRADED' WHERE project_id='${projectId}'`;
         // console.log(query);
 
         con.query(query, (err, result) => {

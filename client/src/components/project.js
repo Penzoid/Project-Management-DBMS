@@ -38,12 +38,21 @@ export default function Project() {
             <span> Waiting for grades</span>
           </div>
         ) : currentProject.status === "GRADED" ? (
-          <div style={{ border: "1px solid green", borderRadius: "5px" }}>
+          <div
+            style={{
+              border: "1px solid green",
+              borderRadius: "5px",
+              marginTop: "15px",
+              padding: "15px",
+            }}
+          >
             <div className="h3">Project Graded</div>
             <b>Graded By:</b>{" "}
-            <span className="h5">{currentProject.graded_by}</span>
+            <span className="h5">{currentProject.gradedBy}</span>
+            <br />
             <b>Grades:</b>
             <span className="h6">{currentProject.grade}</span>
+            <br />
             <b>Remarks:</b>
             <span>{currentProject.remark}</span>
           </div>
