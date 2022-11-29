@@ -1,11 +1,9 @@
-use PROJECT_MANAGEMENT_SYSTEM;
+delimiter //
 
+use PROJECT_MANAGEMENT_SYSTEM//
 
 -- trigger for max size of the team
-drop TRIGGER max_team_size;
-
-delimiter //
-CREATE TRIGGER max_team_size  
+CREATE OR REPLACE TRIGGER max_team_size  
 AFTER INSERT  
 ON STUDENT_IN_TEAM  
 FOR EACH ROW  
@@ -17,14 +15,10 @@ THEN
     signal sqlstate 'ERROR' set message_text = 'Team limit execedded';
 END IF;
 END;//
-delimiter ;
 
 
 -- trigger for min size of the team
-drop TRIGGER min_team_size;
-
-delimiter //
-CREATE TRIGGER min_team_size    
+CREATE OR REPLACE TRIGGER min_team_size    
 BEFORE UPDATE
     ON PROJECT
     FOR EACH ROW
@@ -41,11 +35,9 @@ BEGIN
     END IF;
 END;//
 
--- trigger for duplicate project inside a team
-drop TRIGGER duplicate_project;
 
-delimiter //
-CREATE TRIGGER duplicate_project    
+-- trigger for duplicate project inside a team
+CREATE OR REPLACE TRIGGER duplicate_project    
 BEFORE INSERT
     ON PROJECT
     FOR EACH ROW
@@ -59,4 +51,19 @@ BEGIN
         END IF;
     END IF;
 END;//
+
+
+-- trigger for deleting team if all team members are deleted
+CREATE OR REPLACE TRIGGER delete_team    
+AFTER DELETE
+    ON STUDENT_IN_TEAM
+    FOR EACH ROW
+BEGIN
+    DECLARE count_t int DEFAULT 0;
+    select count(*) into count_t from STUDENT_IN_TEAM where team_id=OLD.team_id;
+    IF (count_t = 0) THEN
+        DELETE FROM TEAM WHERE team_id=OLD.team_id;
+    END IF;
+END;//
+
 delimiter ;

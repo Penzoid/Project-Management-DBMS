@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const con = require("../db");
-const fetchUser = require("../middlewares/fetchuser")
+const fetchUser = require("../middlewares/fetchuser");
 
 const JWT_SECRET = "NOT_SO_SECRET";
 const router = express.Router();
@@ -135,42 +135,48 @@ router.post("/fetch", fetchUser, async (req, res) => {
   }
 });
 
-// router.delete(
-//   "/",
-//   [
-//     body("username", "Username must be 4 to 10 characters long.").isLength({
-//       min: 4,
-//       max: 10,
-//     }),
-//     body("password", "Password must be 8 to 12 characters long.").isLength({
-//       min: 8,
-//       max: 12,
-//     }),
-//   ],
-//   async (req, res) => {
-//     // Sending error if validator failed
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ error: errors.array()[0].msg });
-//     }
+router.delete(
+  "/",
+  fetchUser,
+  [
+    body("password", "Password must be 8 to 12 characters long.").isLength({
+      min: 8,
+      max: 12,
+    }),
+  ],
+  async (req, res) => {
+    // Sending error if validator failed
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: errors.array()[0].msg });
+    }
 
-//     const { username, password } = req.body;
-//     const query = `select * from USER where username='${username}' and password='${password}'`;
-//     con.query(query, function (err, result) {
-//       if (err) return res.status(501).json({ error: err.sqlMessage });
-//       if (result.length === 0)
-//         return res.status(501).json({ error: "No user found." });
+    const { password } = req.body;
+    const { username } = req.user;
 
-//       // Generating Token
-//       const data = {
-//         user: { username, type: result[0].type },
-//       };
-//       const authToken = jwt.sign(data, JWT_SECRET);
+    con.query(
+      `SELECT * FROM USER WHERE username='${username}' AND password='${password}'`,
+      (err, result) => {
+        if (err) return res.status(501).json({ error: err.sqlMessage });
+        if (result.length === 0)
+          return res.status(401).json({ error: "Not Authorized" });
 
-//       return res.json({ authToken });
-//     });
-//   }
-// );
-
+        con.query(
+          `DELETE FROM STUDENT_IN_TEAM WHERE s_id='${username}'`,
+          (err, result) => {
+            if (err) return res.status(501).json({ error: err.sqlMessage });
+            con.query(
+              `DELETE FROM USER WHERE username='${username}'`,
+              (err, result) => {
+                if (err) return res.status(501).json({ error: err.sqlMessage });
+                return res.json("Deleted successfully");
+              }
+            );
+          }
+        );
+      }
+    );
+  }
+);
 
 module.exports = router;

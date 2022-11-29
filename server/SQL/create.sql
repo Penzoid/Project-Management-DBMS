@@ -45,9 +45,9 @@ create table GRADE(
     project_id varchar(50) PRIMARY KEY,
     grade varchar(5) NOT NULL,
     remark varchar(255),
-    gradedBy varchar(12) NOT NULL,
+    gradedBy varchar(12),
     constraint foreign key(project_id) references PROJECT(project_id) ON DELETE CASCADE,
-    constraint foreign key(gradedBy) references TEACHER(t_id)
+    constraint foreign key(gradedBy) references TEACHER(t_id) ON DELETE SET NULL
 );
 
 create table STUDENT_IN_TEAM(
@@ -55,5 +55,5 @@ create table STUDENT_IN_TEAM(
     team_id varchar(50),
     constraint pk primary key(s_id,team_id),
     constraint foreign key(team_id) references TEAM(team_id) ON DELETE CASCADE,
-    constraint foreign key(s_id) references STUDENT(s_id) ON DELETE CASCADE
+    constraint foreign key(s_id) references STUDENT(s_id)
 );

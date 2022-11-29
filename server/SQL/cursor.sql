@@ -1,9 +1,8 @@
-use PROJECT_MANAGEMENT_SYSTEM;
+delimiter //
 
-drop procedure PTG;
-delimiter $$
+use PROJECT_MANAGEMENT_SYSTEM//
 
-CREATE procedure PTG()
+CREATE OR REPLACE procedure PTG()
 begin
     DECLARE grade varchar(5);
     DECLARE project varchar(50);
@@ -23,6 +22,6 @@ begin
         select team,team_id,project,grade,remark,gradedBy;
     end loop;
     close ptg_cursor;
-end;$$
+end;//
 
 delimiter ;
