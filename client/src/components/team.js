@@ -120,8 +120,6 @@ export default function Team() {
           >
             <div
               style={{
-                margin: "20px",
-                marginTop: "50px",
                 borderRadius: "5px",
                 padding: "5px",
                 display: "flex",
@@ -235,7 +233,7 @@ export default function Team() {
             aria-labelledby="members-tab"
             tabIndex={0}
           >
-            {currentTeam && <table className="table">
+            {currentTeam && currentTeam.students && <table className="table">
               <thead>
                 <tr>
                   <th scope="col">S.no</th>

@@ -130,39 +130,36 @@ const Main = () => {
         <Route path="teams/:team_id/:project_id" element={<Project />}></Route>
       </Routes>
 
-      <footer className="footer sticky-bottom">
+      <footer className="footer sticky-bottom bg-dark">
         <center>
           <div className="foot-t"></div>
 
-          <div className="container d-flex justify-content-around">
-            <div>
+          <div className="container d-flex justify-content-around align-items-end">
+            <div style={{ maxWidth: "30%" }}>
               <img src={logo} alt="" />
+              <div className="text-muted">This project aims to provide a platform for students to form groups, collaborate on projects, and submit their work. Teachers have the option of grading the work and providing feedback.</div>
             </div>
-            <div className="d-flex align-items-center flex-column">
-              <h3>Team members</h3>
+            <div className="d-flex align-items-start flex-column">
+              <h3><b>Team members</b></h3>
               <div>Anish Jangir</div>
               <div>Abhishek Bansiwal</div>
               <div>Saksham Bindal</div>
               <div>Sachin Kumar</div>
               <div>Hitesh Mehata</div>
             </div>
-            <div className="d-flex align-items-center flex-column">
-              <div>One</div>
-              <div>Two</div>
-              <div>Three</div>
-              <div>Four</div>
-            </div>
-            <div className="d-flex align-items-center flex-column">
-              <div>One</div>
-              <div>Two</div>
-              <div>Three</div>
-              <div>Four</div>
+            <div className="d-flex align-items-start flex-column">
+              <h3><b>Useful Links</b></h3>
+              <Link to="/">Home</Link>
+              <Link to="/grades">Grades</Link>
+              <Link to="/team">Teams</Link>
+              <Link to="/login">Login</Link>
+              <Link to="/create_account">SignUp</Link>
             </div>
           </div>
           <div className="my-5 h5">
             Made By:&copy;
             <a
-              style={{ textDecoration: "None", color: "#234567" }}
+              style={{ textDecoration: "None" }}
               href="https://github.com/orgs/Penzoid/teams/dbms-team"
               target="_blank"
             >

@@ -12,11 +12,15 @@ a {
   z-index: 100;
   bottom: 0;
   width: 100%;
-  background: yellow;
+  /* background: black; */
+  color: white;
   overflow-y: hidden;
   height: 15px;
   transition: 1s;
   border-top: 2px solid rgb(31, 29, 29);
+}
+.footer a {
+  color: wheat;
 }
 
 .footer:hover {
