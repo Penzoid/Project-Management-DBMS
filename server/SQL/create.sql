@@ -16,6 +16,7 @@ create table USER(
 
 create table STUDENT(
     s_id varchar(12) primary key,
+    git_link varchar(255) unique,
     constraint foreign key(s_id) references USER(username) ON DELETE CASCADE
 );
 
@@ -53,6 +54,7 @@ create table GRADE(
 create table STUDENT_IN_TEAM(
     s_id varchar(12),
     team_id varchar(50),
+    joined_on DATETIME,
     constraint pk primary key(s_id,team_id),
     constraint foreign key(team_id) references TEAM(team_id) ON DELETE CASCADE,
     constraint foreign key(s_id) references STUDENT(s_id)

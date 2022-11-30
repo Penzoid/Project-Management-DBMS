@@ -49,7 +49,6 @@ router.post(
   ],
   fetchuser,
   async (req, res) => {
-    console.log("aa gaya");
     // Sending error if validator failed
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -70,7 +69,7 @@ router.post(
     con.query(query, (err, result) => {
       if (err) return res.status(501).json({ error: err.sqlMessage });
       con.query(
-        `INSERT INTO STUDENT_IN_TEAM VALUES('${username}', '${id}')`,
+        `INSERT INTO STUDENT_IN_TEAM VALUES('${username}', '${id}',CURDATE())`,
         (err, result) => {
           if (err) return res.status(501).json({ error: err.sqlMessage });
         }

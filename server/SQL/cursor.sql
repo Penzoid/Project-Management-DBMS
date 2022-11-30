@@ -2,7 +2,7 @@ delimiter //
 
 use PROJECT_MANAGEMENT_SYSTEM//
 
-CREATE OR REPLACE procedure grades()
+CREATE procedure grades()
 begin
     DECLARE grade varchar(5);
     DECLARE project varchar(50);

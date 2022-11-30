@@ -3,7 +3,7 @@ delimiter //
 use PROJECT_MANAGEMENT_SYSTEM//
 
 -- trigger for max size of the team
-CREATE OR REPLACE TRIGGER max_team_size  
+CREATE TRIGGER max_team_size  
 AFTER INSERT  
 ON STUDENT_IN_TEAM  
 FOR EACH ROW  
@@ -18,7 +18,7 @@ END;//
 
 
 -- trigger for min size of the team
-CREATE OR REPLACE TRIGGER min_team_size    
+CREATE TRIGGER min_team_size    
 BEFORE UPDATE
     ON PROJECT
     FOR EACH ROW
@@ -37,7 +37,7 @@ END;//
 
 
 -- trigger for duplicate project inside a team
-CREATE OR REPLACE TRIGGER duplicate_project    
+CREATE TRIGGER duplicate_project    
 BEFORE INSERT
     ON PROJECT
     FOR EACH ROW
@@ -54,7 +54,7 @@ END;//
 
 
 -- trigger for deleting team if all team members are deleted
-CREATE OR REPLACE TRIGGER delete_team    
+CREATE  TRIGGER delete_team    
 AFTER DELETE
     ON STUDENT_IN_TEAM
     FOR EACH ROW

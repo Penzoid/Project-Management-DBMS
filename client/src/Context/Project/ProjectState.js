@@ -56,7 +56,6 @@ const ProjectState = (props) => {
 
   // Create Project
   const createProject = async ({ name, description, teamId }) => {
-    console.log(teamId);
     const token = JSON.parse(localStorage.getItem("token"));
     if (!token) {
       checkRequest(401, null, null, () => {
@@ -85,7 +84,6 @@ const ProjectState = (props) => {
 
   // Submit Project
   const submitProject = async ({ link, id }) => {
-    console.log(link, id);
     const token = JSON.parse(localStorage.getItem("token"));
     if (!token) {
       checkRequest(401, null, null, () => {
@@ -162,8 +160,8 @@ const ProjectState = (props) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "auth-token": token
-        }
+          "auth-token": token,
+        },
       });
       const json = await response.json();
       checkRequest(

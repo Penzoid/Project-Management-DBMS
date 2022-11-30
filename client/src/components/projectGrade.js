@@ -19,7 +19,6 @@ export default function ProjectGrade({
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(data);
     gradeProject(data);
   };
 

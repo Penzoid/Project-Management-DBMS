@@ -91,7 +91,7 @@ router.post(
     let query2;
 
     if (type === "S") {
-      query2 = `insert into STUDENT values('${username}')`;
+      query2 = `insert into STUDENT values('${username}','')`;
     } else if (type === "T") {
       if (!subject)
         return res.status(400).json({
