@@ -13,9 +13,17 @@ router.get("/:id", async (req, res) => {
 
   con.query(query, (err, result) => {
     if (err) return res.status(501).json({ error: err.sqlMessage });
-    if (result.length === 0)
-      return res.status(501).json({ error: "No team found." });
-    return res.json(result[0]);
+    if (result.length === 0) return res.status(501).json({ error: "No team found." });
+    let team = result[0];
+    con.query(`SELECT * FROM STUDENT_IN_TEAM WHERE team_id='${id}'`, (err, result) => {
+      if (err) return res.status(501).json({ error: err.sqlMessage });
+      team["students"] = result;
+      con.query(`SELECT COUNT(*) AS projects FROM PROJECT WHERE team_id='${id}'`, (err, result) => {
+        if (err) return res.status(501).json({ error: err.sqlMessage });
+        team["projects"] = result[0].projects;
+        return res.json(team);
+      })
+    })
   });
 });
 
@@ -23,13 +31,16 @@ router.get("/:id", async (req, res) => {
 router.get("/", fetchuser, async (req, res) => {
   const { username, type } = req.user;
   if (type === "T") {
-    con.query(`SELECT * FROM TEAM`, (err, result) => {
-      if (err) return res.status(501).json({ error: err.sqlMessage });
-      return res.json(result);
-    });
+    con.query(
+      `SELECT team_id, team_name, team_desc, students FROM STUDENT_IN_TEAM NATURAL JOIN (SELECT team_id, team_name, team_desc, COUNT(*) AS students FROM STUDENT_IN_TEAM NATURAL JOIN TEAM GROUP BY team_id) P GROUP BY team_id`, (err, result) => {
+        if (err) return res.status(501).json({ error: err.sqlMessage });
+        return res.json(result);
+      });
   } else if (type === "S") {
     con.query(
-      `SELECT * FROM STUDENT_IN_TEAM NATURAL JOIN TEAM WHERE s_id='${username}'`,
+      `SELECT team_id, team_name, team_desc, students FROM STUDENT_IN_TEAM NATURAL JOIN (SELECT team_id, team_name, team_desc, COUNT(*) AS students FROM STUDENT_IN_TEAM NATURAL JOIN TEAM GROUP BY team_id) P WHERE s_id='${username}'`,
+      // `SELECT team_id, team_name, team_desc, students FROM STUDENT_IN_TEAM NATURAL JOIN (SELECT team_id, team_name, team_desc, COUNT(*) AS students FROM STUDENT_IN_TEAM NATURAL JOIN TEAM GROUP BY team_id) P WHERE s_id='${username}'`,
+      // `SELECT * FROM STUDENT_IN_TEAM NATURAL JOIN TEAM WHERE s_id='${username}'`,
       (err, result) => {
         if (err) return res.status(501).json({ error: err.sqlMessage });
         return res.json(result);
@@ -110,7 +121,7 @@ router.post(
         if (result.length === 0)
           return res.status(401).json({ error: "Not authorized" });
 
-        const query = `INSERT INTO STUDENT_IN_TEAM VALUES('${username}', '${teamId}')`;
+        const query = `INSERT INTO STUDENT_IN_TEAM VALUES('${username}', '${teamId}',CURDATE())`;
 
         con.query(query, (err, result) => {
           if (err) return res.status(501).json({ error: err.sqlMessage });

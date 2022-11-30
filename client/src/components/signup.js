@@ -14,6 +14,7 @@ export default function SignUp() {
     address: "",
     mobile: "",
     subject: "",
+    git_link: "",
     type: "S",
   });
   const { registerUser } = useContext(AuthContext);
@@ -30,12 +31,14 @@ export default function SignUp() {
       mobile: document.getElementById("mobile").value,
       type: document.getElementById("type").value,
       subject: document.getElementById("subject").value,
+      git_link: document.getElementById("git_link").value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (data.type === "S") setData({ subject: "" });
+    if (data.type === "T") setData({ git_link: "" });
     await registerUser(data);
   };
 
@@ -206,6 +209,28 @@ export default function SignUp() {
               type="hidden"
               id="subject"
               value={data.subject}
+              onChange={handleChange}
+            ></input>
+          )}
+          {data.type === "S" ? (
+            <div className="col-4">
+              <label htmlFor="git_link" className="form-label">
+                github link
+              </label>
+              <input
+                value={data.git_link}
+                onChange={handleChange}
+                type="url"
+                className="form-control"
+                id="git_link"
+                placeholder="Your github profile link"
+              />
+            </div>
+          ) : (
+            <input
+              type="hidden"
+              id="git_link"
+              value={data.git_link}
               onChange={handleChange}
             ></input>
           )}

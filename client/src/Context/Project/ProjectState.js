@@ -153,7 +153,7 @@ const ProjectState = (props) => {
   };
 
   // Delete Project
-  const deleteProject = async ({ projectId }) => {
+  const deleteProject = async ({ projectId, teamId }) => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token) {
       const response = await fetch(HOST + "/" + projectId, {
@@ -171,7 +171,7 @@ const ProjectState = (props) => {
         async () => {
           setCurrentProject(null);
           setProjects([]);
-          history("/team");
+          history("/teams/" + teamId);
         }
       );
     } else {

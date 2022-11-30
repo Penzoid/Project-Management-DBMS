@@ -16,7 +16,7 @@ create table USER(
 
 create table STUDENT(
     s_id varchar(12) primary key,
-    git_link varchar(255) unique,
+    git_link varchar(255),
     constraint foreign key(s_id) references USER(username) ON DELETE CASCADE
 );
 

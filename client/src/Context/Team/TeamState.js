@@ -38,6 +38,7 @@ const TeamState = (props) => {
     });
     const json = await response.json();
     checkRequest(response.status, json.error, null, () => {
+      // json.map(el => getById(e.team_id));
       setTeams(json);
     });
   };

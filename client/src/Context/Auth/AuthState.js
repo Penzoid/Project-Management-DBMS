@@ -43,6 +43,7 @@ const AuthState = (props) => {
     address,
     mobile,
     type,
+    git_link,
     subject,
   }) => {
     if (password === confirm_pass) {
@@ -61,6 +62,7 @@ const AuthState = (props) => {
           address,
           mobile,
           type,
+          git_link,
           subject,
         }),
       });
@@ -88,18 +90,13 @@ const AuthState = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "auth-token": token
+          "auth-token": token,
         },
       });
       const json = await response.json();
-      checkRequest(
-        response.status,
-        json.error,
-        null,
-        async () => {
-          setCurrentUser(json);
-        }
-      );
+      checkRequest(response.status, json.error, null, async () => {
+        setCurrentUser(json);
+      });
     }
   };
 
@@ -111,7 +108,7 @@ const AuthState = (props) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "auth-token": token
+          "auth-token": token,
         },
         body: JSON.stringify({ password }),
       });
@@ -132,10 +129,15 @@ const AuthState = (props) => {
   };
 
   return (
-    <AuthContext.Provider value={{
-      loginUser, registerUser, fetchUser, deleteUser,
-      currentUser
-    }}>
+    <AuthContext.Provider
+      value={{
+        loginUser,
+        registerUser,
+        fetchUser,
+        deleteUser,
+        currentUser,
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

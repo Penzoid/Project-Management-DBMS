@@ -74,7 +74,7 @@ router.post(
       return res.status(400).json({ error: errors.array()[0].msg });
     }
 
-    const {
+    let {
       first_name,
       last_name,
       username,
@@ -84,6 +84,7 @@ router.post(
       address,
       type,
       subject,
+      git_link,
     } = req.body;
 
     let query = `insert into USER values('${first_name}','${last_name}','${username}',
@@ -91,7 +92,8 @@ router.post(
     let query2;
 
     if (type === "S") {
-      query2 = `insert into STUDENT values('${username}','')`;
+      if (!git_link) git_link = "";
+      query2 = `insert into STUDENT values('${username}','${git_link}')`;
     } else if (type === "T") {
       if (!subject)
         return res.status(400).json({

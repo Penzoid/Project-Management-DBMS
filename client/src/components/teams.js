@@ -24,7 +24,6 @@ export default function Teams() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          alignItems: "center",
         }}
       >
         <div
@@ -50,6 +49,7 @@ export default function Teams() {
                 </div>
                 <div className="card-body" style={{ minHeight: "100px" }}>
                   <p className="card-text">{team.team_desc}</p>
+                  <p className="card-text">{team.students} Students</p>
                 </div>
                 <div className="card-footer">
                   <Link
