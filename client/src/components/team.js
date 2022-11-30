@@ -142,6 +142,7 @@ export default function Team() {
                       </div>
                       <div className="card-body" style={{ minHeight: "100px" }}>
                         <p className="card-text">{project.description}</p>
+                        <p className="card-text">Status: {project.status}</p>
                       </div>
                       <div className="card-footer">
                         <Link
