@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import ProjectContext from "../Context/Project/ProjectContext.js";
 
 export default function Grades() {
@@ -30,7 +31,7 @@ export default function Grades() {
                 <td>{el.team}</td>
                 <td>{el.grade}</td>
                 <td>{el.remark === "" ? "-" : el.remark}</td>
-                <td>{el.gradedBy}</td>
+                <td><Link to={"/profile/" + el.gradedBy} style={{ color: "black" }}>{el.gradedBy}</Link></td>
               </tr>
             ))}
           </tbody>

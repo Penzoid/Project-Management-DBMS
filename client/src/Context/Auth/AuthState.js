@@ -7,6 +7,7 @@ const AuthState = (props) => {
   const HOST = (process.env.BACKEND_URL || "http://localhost:5000") + "/auth";
 
   const [currentUser, setCurrentUser] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
   const checkRequest = useRequest();
   const history = useNavigate();
 
@@ -100,6 +101,17 @@ const AuthState = (props) => {
     }
   };
 
+  // Fetch By ID
+  const fetchUserByID = async ({ id }) => {
+    const response = await fetch(HOST + "/fetch/" + id, {
+      method: "POST",
+    });
+    const json = await response.json();
+    checkRequest(response.status, json.error, null, async () => {
+      setUserDetails(json);
+    });
+  };
+
   // Delete User
   const deleteUser = async ({ password }) => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -135,7 +147,9 @@ const AuthState = (props) => {
         registerUser,
         fetchUser,
         deleteUser,
+        fetchUserByID,
         currentUser,
+        userDetails
       }}
     >
       {props.children}

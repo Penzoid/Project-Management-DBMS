@@ -137,6 +137,38 @@ router.post("/fetch", fetchUser, async (req, res) => {
   }
 });
 
+router.post("/fetch/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    con.query(`SELECT * FROM USER WHERE username='${username}'`, (err, result) => {
+      if (err) return res.status(501).json({ error: err.sqlMessage });
+      if (result.length === 0) return res.status(400).json({ error: "No user found" });
+
+      if (result[0].type === "S") {
+        con.query(`SELECT * FROM STUDENT NATURAL JOIN USER WHERE s_id='${username}' AND username='${username}'`, (err, result) => {
+          if (err) return res.status(501).json({ error: err.sqlMessage });
+          if (result.length === 0) return res.status(400).json({ error: "No user found" });
+          let user = result[0];
+          user["password"] = null;
+          return res.json(user);
+        })
+      }
+      else {
+        con.query(`SELECT * FROM TEACHER NATURAL JOIN USER WHERE t_id='${username}' AND username='${username}'`, (err, result) => {
+          if (err) return res.status(501).json({ error: err.sqlMessage });
+          if (result.length === 0) return res.status(400).json({ error: "No user found" });
+          let user = result[0];
+          user["password"] = null;
+          return res.json(user);
+        })
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 router.delete(
   "/",
   fetchUser,

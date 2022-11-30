@@ -245,7 +245,7 @@ export default function Team() {
                 {currentTeam.students.map((el, i) => (
                   <tr key={i}>
                     <th scope="row">{i + 1}</th>
-                    <td>{el.s_id}</td>
+                    <td><Link style={{ color: "black" }} to={"/profile/" + el.s_id}>{el.s_id}</Link></td>
                     <td>{el.joined_on}</td>
                   </tr>
                 ))}
